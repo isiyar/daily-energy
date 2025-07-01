@@ -1,0 +1,42 @@
+name: DailyEnergy
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - network
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.28.0-alpine
+    restart: unless-stopped
+    #    env_file:
+    #      - path: .env
+    #        required: true
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - network
+    configs:
+      - source: nginx-config
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      backend:
+        restart: false
+        required: true
+        condition: service_started
+
+networks:
+  network:
+    name: network
+    driver: bridge
+
+configs:
+  nginx-config:
+    name: nginx-config
+    file: nginx.conf
