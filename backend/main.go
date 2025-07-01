@@ -12,7 +12,6 @@ func main() {
 
 	router := gin.Default()
 	apiGroup := router.Group("/api")
-	routers.RingRegisterRoutes(apiGroup)
-	routers.HelloWorldRegisterRoutes(apiGroup)
+	routers.RegisterRoutes(apiGroup)
 	router.Run()
 }
