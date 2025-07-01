@@ -1,0 +1,110 @@
+services:
+  backend-dev:
+    container_name: backend-dev
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - network
+    profiles:
+      - dev
+
+  nginx-dev:
+    container_name: nginx-dev
+    image: nginx:1.28.0-alpine
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: true
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - network
+    configs:
+      - source: nginx-config-dev
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      backend-dev:
+        restart: false
+        required: true
+        condition: service_started
+    profiles:
+      - dev
+
+  backend-prod:
+    container_name: backend-prod
+    image: ${DOCKER_USERNAME}/daily-energy:${TAG:-latest}
+    restart: unless-stopped
+    networks:
+      - network
+    profiles:
+      - prod
+
+  nginx-prod:
+    container_name: nginx-prod
+    image: nginx:1.28.0-alpine
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: true
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - network
+    volumes:
+      - ./nginx/prod.conf:/etc/nginx/nginx.conf:ro
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    configs:
+      - source: nginx-config-prod
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      backend-prod:
+        restart: false
+        required: true
+        condition: service_started
+    profiles:
+      - prod
+
+  postgres:
+    container_name: postgres
+    image: postgres:17.5
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      - PGUSER=${DB_USERNAME}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+    networks:
+      - network
+    profiles:
+      - dev
+      - prod
+
+networks:
+  network:
+    name: network
+    driver: bridge
+
+volumes:
+  postgres-data:
+    name: postgres-data
+
+configs:
+  nginx-config-dev:
+    name: nginx-config-dev
+    file: ./nginx/dev.conf
+
+  nginx-config-prod:
+    name: nginx-config-prod
+    file: ./nginx/prod.conf
