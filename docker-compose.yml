@@ -1,4 +1,4 @@
-name: DailyEnergy
+name: daily-energy
 
 services:
   backend-dev:
