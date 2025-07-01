@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - "main"
-  pull_request:
-    branches:
-      - "main"
 
 jobs:
   build_and_deploy:
@@ -44,5 +41,6 @@ jobs:
           port: 22
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/daily-energy:latest
-            
-            docker-compose -f /root/code/daily-energy/docker-compose.yml --profile prod up -d
+            cd /root/code/daily-energy
+            git pull origin main
+            docker-compose --profile prod up -d --force-recreate
