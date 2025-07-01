@@ -42,6 +42,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
+            #            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
             docker pull ${{ secrets.DOCKER_USERNAME }}/daily-energy:latest
             docker-compose -f /code/daily-energy/docker-compose.yml --profile dev up -d
