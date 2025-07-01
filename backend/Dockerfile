@@ -1,6 +1,6 @@
 FROM golang:1.24 AS builder
 
-WORKDIR /app
+WORKDIR /backend
 
 COPY go.mod go.sum ./
 RUN go mod download
@@ -15,5 +15,5 @@ FROM alpine:latest
 
 WORKDIR /root/
 
-COPY --from=builder /app/main .
+COPY --from=builder /backend/main .
 CMD ["./main"]
