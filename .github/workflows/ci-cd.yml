@@ -45,4 +45,4 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/daily-energy:latest
             
-            docker-compose -f ~/code/daily-energy/docker-compose.yml --profile prod up -d
+            docker-compose -f /root/code/daily-energy/docker-compose.yml --profile prod up -d
