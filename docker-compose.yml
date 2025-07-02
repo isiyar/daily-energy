@@ -11,6 +11,8 @@ services:
       - network
     profiles:
       - dev
+    depends_on:
+      - postgres
 
   nginx-dev:
     container_name: nginx-dev
@@ -45,6 +47,8 @@ services:
       - network
     profiles:
       - prod
+    depends_on:
+      - postgres
 
   nginx-prod:
     container_name: nginx-prod
