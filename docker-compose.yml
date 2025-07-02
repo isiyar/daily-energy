@@ -37,6 +37,15 @@ services:
     container_name: backend-prod
     image: ${DOCKER_USERNAME}/daily-energy:${TAG:-latest}
     restart: unless-stopped
+    environment:
+      - DEBUG=true
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DOCKER_USERNAME=${DOCKER_USERNAME}
     networks:
       - network
     profiles:
@@ -81,6 +90,8 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+    #    ports:
+    #      - 5432:5432
     volumes:
       - type: volume
         source: postgres-data
