@@ -3,6 +3,7 @@ package ports
 import (
 	"fmt"
 	"github.com/isiyar/daily-energy/backend/config"
+	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,8 +15,7 @@ func InitDatabase(c config.Config) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	// После написания моделек закинуть сюда
-	// db.AutoMigrate()
+	db.AutoMigrate(&models.Action{}, &models.Plan{}, &models.User{}, &models.UserWeightHistory{})
 
 	return db, nil
 }

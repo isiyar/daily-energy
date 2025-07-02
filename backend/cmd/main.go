@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/config"
+	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
 	"github.com/isiyar/daily-energy/backend/internal/infrastructure/http/router"
 )
-import "github.com/gin-gonic/gin"
 
 func main() {
 	config, err := config.LoadConfig()
@@ -16,12 +18,12 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	//db, err := ports.InitDatabase(config)
-	//if err != nil {
-	//	return
-	//}
-	//
-	//println(db.Config)
+	db, err := ports.InitDatabase(config)
+	if err != nil {
+		return
+	}
+	
+	fmt.Println(db.Config)
 
 	r := gin.Default()
 	apiGroup := r.Group("/api")
