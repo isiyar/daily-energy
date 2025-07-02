@@ -1,31 +1,29 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+	"github.com/spf13/viper"
+)
 
 type Config struct {
-	DEBUG              bool   `mapstructure:"DEBUG"`
-	DB_HOST            string `mapstructure:"DB_HOST"`
-	DB_PORT            int    `mapstructure:"DB_PORT"`
-	DB_USERNAME        string `mapstructure:"DB_USERNAME"`
-	DB_PASSWORD        string `mapstructure:"DB_PASSWORD"`
-	DB_NAME            string `mapstructure:"DB_NAME"`
-	TELEGRAM_BOT_TOKEN string `mapstructure:"TELEGRAM_BOT_TOKEN"`
+	Debug            bool   `mapstructure:"DEBUG"`
+	DBHost           string `mapstructure:"DB_HOST"`
+	DBPort           int    `mapstructure:"DB_PORT"`
+	DBUsername       string `mapstructure:"DB_USERNAME"`
+	DBPassword       string `mapstructure:"DB_PASSWORD"`
+	DBName           string `mapstructure:"DB_NAME"`
+	TelegramBotToken string `mapstructure:"TELEGRAM_BOT_TOKEN"`
 }
 
-func LoadConfig() (c Config, err error) {
-	//viper.SetConfigFile("../.env")
+func LoadConfig() (Config, error) {
+	var c Config
+
 	viper.AutomaticEnv()
 
-	//err = viper.ReadInConfig()
-
-	//if err != nil {
-	//	return
-	//}
-
-	err = viper.Unmarshal(&c)
+	err := viper.Unmarshal(&c)
 	if err != nil {
-		return c, err
+		return c, fmt.Errorf("unable to decode into struct: %v", err)
 	}
 
-	return
+	return c, nil
 }

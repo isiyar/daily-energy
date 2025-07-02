@@ -9,13 +9,16 @@ import (
 )
 
 func InitDatabase(c config.Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", c.DB_HOST, c.DB_PORT, c.DB_USERNAME, c.DB_PASSWORD, c.DB_NAME)
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s", c.DBHost, c.DBPort, c.DBUsername, c.DBPassword, c.DBName)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
-	db.AutoMigrate(&models.Action{}, &models.Plan{}, &models.User{}, &models.UserWeightHistory{})
+	err = db.AutoMigrate(&models.Action{}, &models.Plan{}, &models.User{}, &models.UserWeightHistory{})
+	if err != nil {
+		return nil, err
+	}
 
 	return db, nil
 }

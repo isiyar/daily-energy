@@ -9,21 +9,21 @@ import (
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	c, err := config.LoadConfig()
 	if err != nil {
-		return
+		panic(err)
 	}
 
-	if !config.DEBUG {
+	if !c.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	db, err := ports.InitDatabase(config)
+	db, err := ports.InitDatabase(c)
 	if err != nil {
-		return
+		panic(err)
 	}
-	
-	fmt.Println(db.Config)
+
+	fmt.Println(db)
 
 	r := gin.Default()
 	apiGroup := r.Group("/api")
