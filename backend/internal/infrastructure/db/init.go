@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 	"github.com/isiyar/daily-energy/backend/config"
-	"github.com/isiyar/daily-energy/backend/internal/domain/models"
+	"github.com/isiyar/daily-energy/backend/internal/infrastructure/infraModels"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,14 +15,14 @@ func InitDatabase(c config.Config) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err := db.AutoMigrate(&models.User{}); err != nil {
+	if err := db.AutoMigrate(&infraModels.User{}); err != nil {
 		return nil, err
 	}
 
 	if err := db.AutoMigrate(
-		&models.Action{},
-		&models.Plan{},
-		&models.UserWeightHistory{},
+		&infraModels.Action{},
+		&infraModels.Plan{},
+		&infraModels.UserWeightHistory{},
 	); err != nil {
 		return nil, err
 	}

@@ -15,11 +15,14 @@ const (
 )
 
 type User struct {
-	Utgid            int64
-	Name             string
-	Gender           Gender
-	Weight           int
-	Height           int
-	Goal             Goal
-	PhysicalActivity PhysicalActivity
+	Utgid             int64
+	Name              string
+	Gender            Gender
+	Weight            int
+	Height            int
+	Goal              Goal
+	PhysicalActivity  PhysicalActivity
+	Actions           []Action
+	Plans             []Plan
+	UserWeightHistory []UserWeightHistory
 }
