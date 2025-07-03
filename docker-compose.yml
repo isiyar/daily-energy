@@ -64,8 +64,8 @@ services:
       - network
     volumes:
       - ./nginx/prod.conf:/etc/nginx/nginx.conf:ro
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - ../certbot/conf:/etc/letsencrypt
+      - ../certbot/www:/var/www/certbot
     configs:
       - source: nginx-config-prod
         target: /etc/nginx/conf.d/default.conf
