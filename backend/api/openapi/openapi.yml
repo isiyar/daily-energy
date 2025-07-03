@@ -1,0 +1,421 @@
+openapi: 3.0.0
+info:
+  title: Daily Energy API
+  description: API для управления энергетическими данными пользователей
+  version: 1.0.0
+  contact:
+    name: Daily Energy Team
+servers:
+  - url: http://localhost/api
+    description: Локальный сервер разработки
+  - url: https://test-srvr.ru/
+    description: Продакшн сервер
+
+tags:
+  - name: users
+    description: Операции с пользователями
+  - name: plans
+    description: Операции с планами питания и активности
+  - name: actions
+    description: Операции с действиями пользователей
+  - name: weight-history
+    description: История изменения веса пользователей
+
+paths:
+  /api/users:
+    post:
+      summary: Создать нового пользователя
+      tags: [ users ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: Пользователь создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /api/users/{utgid}:
+    get:
+      summary: Получить пользователя по ID
+      tags: [ users ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Обновить данные пользователя
+      tags: [ users ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Пользователь обновлен
+    delete:
+      summary: Удалить пользователя
+      tags: [ users ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Пользователь удален
+
+  /api/users/{utgid}/weight-history:
+    get:
+      summary: Получить историю веса пользователя
+      tags: [ weight-history ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserWeightHistory'
+    post:
+      summary: Добавить запись веса пользователя
+      tags: [ weight-history ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWeightHistoryRequest'
+      responses:
+        '201':
+          description: Запись добавлена
+
+  /api/users/{utgid}/plans/:
+    get:
+      summary: Получить список планов
+      tags: [ plans ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: start_at
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: finish_at
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plan'
+    post:
+      summary: Создать новый план
+      tags: [ plans ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanRequest'
+      responses:
+        '201':
+          description: План создан
+
+  /api/users/{utgid}/actions:
+    get:
+      summary: Получить список действий
+      tags: [ actions ]
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: start_at
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: finish_at
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Action'
+    post:
+      parameters:
+        - name: utgid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      summary: Создать новое действие
+      tags: [ actions ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionRequest'
+      responses:
+        '201':
+          description: Действие создано
+
+  /api/actions/{id}:
+    get:
+      summary: Получить действие по ID
+      tags: [ actions ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        utgid:
+          type: integer
+          format: int64
+        gender:
+          type: string
+          enum: [ Male, Female ]
+        weight:
+          type: integer
+        height:
+          type: integer
+        goal:
+          type: string
+          enum: [ LoseWeight, GainMuscleMass ]
+        physical_activity:
+          type: string
+          enum: [ Low, Medium, High ]
+        name:
+          type: string
+
+    UserCreate:
+      type: object
+      required:
+        - gender
+        - goal
+        - weight
+        - height
+        - physical_activity
+        - name
+      properties:
+        gender:
+          type: string
+          enum: [ Male, Female ]
+        weight:
+          type: integer
+        height:
+          type: integer
+        goal:
+          type: string
+          enum: [ LoseWeight, GainMuscleMass ]
+        physical_activity:
+          type: string
+          enum: [ Low, Medium, High ]
+        name:
+          type: string
+
+    UserRequest:
+      type: object
+      required:
+        - gender
+        - goal
+        - physical_activity
+        - name
+      properties:
+        gender:
+          type: string
+          enum: [ Male, Female ]
+        goal:
+          type: string
+          enum: [ LoseWeight, GainMuscleMass ]
+        physical_activity:
+          type: string
+          enum: [ Low, Medium, High ]
+        name:
+          type: string
+
+    UserWeightHistory:
+      type: object
+      properties:
+        utgid:
+          type: integer
+          format: int64
+        date:
+          type: integer
+          format: int64
+        user_weight:
+          type: integer
+        user_height:
+          type: integer
+
+    UserWeightHistoryRequest:
+      type: object
+      required:
+        - date
+        - user_weight
+        - user_height
+      properties:
+        date:
+          type: integer
+          format: int64
+        user_weight:
+          type: integer
+        user_height:
+          type: integer
+
+    Plan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        utgid:
+          type: integer
+          format: int64
+        date:
+          type: integer
+          format: i nt64
+        calories_to_consume:
+          type: integer
+        calories_to_burn:
+          type: integer
+        recommendation:
+          type: string
+
+    PlanRequest:
+      type: object
+      required:
+        - date
+      properties:
+        date:
+          type: integer
+          format: int64
+
+    Action:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        utgid:
+          type: integer
+          format: int64
+        date:
+          type: integer
+          format: int64
+        activity_name:
+          type: string
+        calories:
+          type: integer
+        type:
+          type: string
+          enum: [ Food, Activity ]
+
+    ActionRequest:
+      type: object
+      required:
+        - date
+        - activity_name
+        - calories
+        - type
+      properties:
+        date:
+          type: integer
+          format: int64
+        activity_name:
+          type: string
+        calories:
+          type: integer
+        type:
+          type: string
+          enum: [ Food, Activity ]
