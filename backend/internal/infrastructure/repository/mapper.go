@@ -86,21 +86,79 @@ func toInfraActions(actions []models.Action) []infraModels.Action {
 }
 
 func toDomainPlans(plans []infraModels.Plan) []models.Plan {
-	//	TODO: Implement this function
-	panic("function not implemented")
+	if plans == nil {
+		return nil
+	}
+	res := make([]models.Plan, len(plans))
+	for i, p := range plans {
+		res[i] = models.Plan{
+			Id:                p.Id.String(),
+			Utgid:             p.Utgid,
+			Date:              p.Date,
+			CaloriesToConsume: p.CaloriesToConsume,
+			CaloriesToBurn:    p.CaloriesToBurn,
+			Recommendation:    p.Recommendation,
+		}
+	}
+	return res
 }
 
 func toInfraPlans(plans []models.Plan) []infraModels.Plan {
-	//	TODO: Implement this function
-	panic("function not implemented")
+	if plans == nil {
+		return nil
+	}
+	res := make([]infraModels.Plan, len(plans))
+	for i, p := range plans {
+		id, err := ParseUUID(p.Id)
+		if err != nil {
+			continue
+		}
+		res[i] = infraModels.Plan{
+			Id:                id,
+			Utgid:             p.Utgid,
+			Date:              p.Date,
+			CaloriesToConsume: p.CaloriesToConsume,
+			CaloriesToBurn:    p.CaloriesToBurn,
+			Recommendation:    p.Recommendation,
+		}
+	}
+	return res
 }
 
 func toDomainUserWeightHistory(histories []infraModels.UserWeightHistory) []models.UserWeightHistory {
-	//	TODO: Implement this function
-	panic("function not implemented")
+	if histories == nil {
+		return nil
+	}
+	res := make([]models.UserWeightHistory, len(histories))
+	for i, h := range histories {
+		res[i] = models.UserWeightHistory{
+			Id:         h.Id.String(),
+			Utgid:      h.Utgid,
+			Date:       h.Date,
+			UserWeight: h.UserWeight,
+			UserHeight: h.UserHeight,
+		}
+	}
+	return res
 }
 
 func toInfraUserWeightHistory(histories []models.UserWeightHistory) []infraModels.UserWeightHistory {
-	//	TODO: Implement this function
-	panic("function not implemented")
+	if histories == nil {
+		return nil
+	}
+	res := make([]infraModels.UserWeightHistory, len(histories))
+	for i, h := range histories {
+		id, err := ParseUUID(h.Id)
+		if err != nil {
+			continue
+		}
+		res[i] = infraModels.UserWeightHistory{
+			Id:         id,
+			Utgid:      h.Utgid,
+			Date:       h.Date,
+			UserWeight: h.UserWeight,
+			UserHeight: h.UserHeight,
+		}
+	}
+	return res
 }
