@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/config"
+	"github.com/isiyar/daily-energy/backend/internal/infrastructure/db"
 	"github.com/isiyar/daily-energy/backend/internal/infrastructure/http/router"
-	"github.com/isiyar/daily-energy/backend/internal/infrastructure/repository"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	db, err := repository.InitDatabase(c)
+	db, err := db.InitDatabase(c)
 	if err != nil {
 		panic(err)
 	}
