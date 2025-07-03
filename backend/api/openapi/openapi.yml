@@ -6,7 +6,7 @@ info:
   contact:
     name: Daily Energy Team
 servers:
-  - url: http://localhost/api
+  - url: http://localhost/
     description: Локальный сервер разработки
   - url: https://test-srvr.ru/
     description: Продакшн сервер
@@ -281,6 +281,7 @@ components:
     UserCreate:
       type: object
       required:
+        - utgid
         - gender
         - goal
         - weight
@@ -288,6 +289,9 @@ components:
         - physical_activity
         - name
       properties:
+        utgid:
+          type: integer
+          format: int64
         gender:
           type: string
           enum: [ Male, Female ]
