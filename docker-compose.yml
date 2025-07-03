@@ -5,7 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     env_file:
-      - .env
+      - path: .env
+        required: true
     restart: unless-stopped
     networks:
       - network
@@ -42,7 +43,8 @@ services:
     image: ${DOCKER_USERNAME}/daily-energy:${TAG:-latest}
     restart: unless-stopped
     env_file:
-      - .env
+      - path: .env
+        required: true
     networks:
       - network
     profiles:
@@ -100,6 +102,42 @@ services:
     profiles:
       - dev
       - prod
+  
+  frontend-dev:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    container_name: frontend-dev
+    restart: always
+    env_file:
+      - path: .env
+        required: true
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/code
+    networks:
+      - app_network
+    depends_on:
+      - backend-dev
+  
+  frontend-prod:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    container_name: frontend-prod
+    restart: always
+    env_file:
+      - path: .env
+        required: true
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/code
+    networks:
+      - app_network
+    depends_on:
+      - backend-prod
 
 networks:
   network:
