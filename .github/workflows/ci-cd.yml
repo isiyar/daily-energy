@@ -45,5 +45,5 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/daily-energy:latest
             cd /root/code/daily-energy
-            #            git pull origin main
+            git pull origin main
             docker-compose --profile prod up -d --force-recreate
