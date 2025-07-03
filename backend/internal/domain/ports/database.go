@@ -15,8 +15,15 @@ func InitDatabase(c config.Config) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	err = db.AutoMigrate(&models.Action{}, &models.Plan{}, &models.User{}, &models.UserWeightHistory{})
-	if err != nil {
+	if err := db.AutoMigrate(&models.User{}); err != nil {
+		return nil, err
+	}
+
+	if err := db.AutoMigrate(
+		&models.Action{},
+		&models.Plan{},
+		&models.UserWeightHistory{},
+	); err != nil {
 		return nil, err
 	}
 
