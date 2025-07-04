@@ -23,8 +23,8 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag daily-energy:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-backend:latest
-          docker tag daily-energy:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-backend:${{ github.sha }}
+          docker tag daily-energy-backend:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-backend:latest
+          docker tag daily-energy-backend:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-backend:${{ github.sha }}
 
       - name: Push Docker image
         run: |
@@ -48,8 +48,8 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag daily-energy:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-frontend:latest
-          docker tag daily-energy:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-frontend:${{ github.sha }}
+          docker tag daily-energy-frontend:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-frontend:latest
+          docker tag daily-energy-frontend:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/daily-energy-frontend:${{ github.sha }}
 
       - name: Push Docker image
         run: |
