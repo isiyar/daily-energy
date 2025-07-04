@@ -64,3 +64,20 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, dto.ToUserResponse(domainUser))
 }
+
+func (h *UserHandler) DeleteUser(c *gin.Context) {
+	utgidStr := c.Param("utgid")
+
+	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
+		return
+	}
+
+	if err := h.userUC.Delete(c.Request.Context(), utgid); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusNoContent, nil)
+}
