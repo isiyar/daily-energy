@@ -1,11 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/config"
-	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
-	"github.com/isiyar/daily-energy/backend/internal/infrastructure/http/router"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/db"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/http/router"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/repository"
+	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
+	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/handler"
 )
 
 func main() {
@@ -18,15 +20,18 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	db, err := ports.InitDatabase(c)
+	db, err := db.InitDatabase(c)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(db)
+	UserUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
+	userHandler := handler.NewUserHandler(UserUC)
+
+	h := handler.NewHandler(userHandler)
 
 	r := gin.Default()
 	apiGroup := r.Group("/api")
-	router.RegisterRoutes(apiGroup)
+	router.RegisterRoutes(apiGroup, h)
 	r.Run()
 }

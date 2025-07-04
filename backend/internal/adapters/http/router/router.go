@@ -5,7 +5,9 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/handler"
 )
 
-func RegisterRoutes(r gin.IRouter) {
-	r.GET("/", handler.HelloWorldHandler)
+func RegisterRoutes(r gin.IRouter, h *handler.Handler) {
 	r.GET("/ping", handler.PingHandler)
+
+	r.POST("/users", h.User.CreateUser)
+	r.GET("/users/:utgid", h.User.GetUser)
 }

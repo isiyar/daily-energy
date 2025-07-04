@@ -40,7 +40,7 @@ services:
 
   backend-prod:
     container_name: backend-prod
-    image: ${DOCKER_USERNAME}/daily-energy:${TAG:-latest}
+    image: ${DOCKER_USERNAME}/daily-energy/backend:${TAG:-latest}
     restart: unless-stopped
     env_file:
       - path: .env
@@ -112,8 +112,6 @@ services:
     env_file:
       - path: .env
         required: true
-    ports:
-      - "5173:5173"
     volumes:
       - ./frontend:/code
     networks:
@@ -124,18 +122,14 @@ services:
       - dev
   
   frontend-prod:
-    build:
-      context: frontend/
-      dockerfile: Dockerfile
     container_name: frontend-prod
-    restart: always
+    image: ${DOCKER_USERNAME}/daily-energy/frontend:${TAG:-latest}
+    restart: unless-stopped
     env_file:
       - path: .env
         required: true
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/code
+    #    volumes:
+    #      - ./frontend:/code
     networks:
       - network
     depends_on:

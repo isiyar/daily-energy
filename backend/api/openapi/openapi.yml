@@ -6,7 +6,7 @@ info:
   contact:
     name: Daily Energy Team
 servers:
-  - url: http://localhost/api
+  - url: http://localhost/
     description: Локальный сервер разработки
   - url: https://test-srvr.ru/
     description: Продакшн сервер
@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserResponse'
 
   /api/users/{utgid}:
     get:
@@ -57,7 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserResponse'
     put:
       summary: Обновить данные пользователя
       tags: [ users ]
@@ -110,7 +110,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserWeightHistory'
+                  $ref: '#/components/schemas/UserWeightHistoryResponse'
     post:
       summary: Добавить запись веса пользователя
       tags: [ weight-history ]
@@ -162,7 +162,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Plan'
+                  $ref: '#/components/schemas/PlanResponse'
     post:
       summary: Создать новый план
       tags: [ plans ]
@@ -214,7 +214,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Action'
+                  $ref: '#/components/schemas/ActionResponse'
     post:
       parameters:
         - name: utgid
@@ -252,11 +252,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Action'
+                $ref: '#/components/schemas/ActionResponse'
 
 components:
   schemas:
-    User:
+    UserResponse:
       type: object
       properties:
         utgid:
@@ -281,6 +281,7 @@ components:
     UserCreate:
       type: object
       required:
+        - utgid
         - gender
         - goal
         - weight
@@ -288,6 +289,9 @@ components:
         - physical_activity
         - name
       properties:
+        utgid:
+          type: integer
+          format: int64
         gender:
           type: string
           enum: [ Male, Female ]
@@ -324,7 +328,7 @@ components:
         name:
           type: string
 
-    UserWeightHistory:
+    UserWeightHistoryResponse:
       type: object
       properties:
         utgid:
@@ -333,27 +337,27 @@ components:
         date:
           type: integer
           format: int64
-        user_weight:
+        weight:
           type: integer
-        user_height:
+        height:
           type: integer
 
     UserWeightHistoryRequest:
       type: object
       required:
         - date
-        - user_weight
-        - user_height
+        - weight
+        - height
       properties:
         date:
           type: integer
           format: int64
-        user_weight:
+        weight:
           type: integer
-        user_height:
+        height:
           type: integer
 
-    Plan:
+    PlanResponse:
       type: object
       properties:
         id:
@@ -381,7 +385,7 @@ components:
           type: integer
           format: int64
 
-    Action:
+    ActionResponse:
       type: object
       properties:
         id:
