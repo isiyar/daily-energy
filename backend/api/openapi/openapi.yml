@@ -114,6 +114,10 @@ paths:
       responses:
         '200':
           description: Пользователь обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
         '400':
           description: invalid request
           content:
