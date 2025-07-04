@@ -21,3 +21,7 @@ func (uc *UserUseCase) Execute(ctx context.Context, utgid int64) (models.User, e
 func (uc *UserUseCase) Add(ctx context.Context, user models.User) error {
 	return uc.repo.Save(ctx, user)
 }
+
+func (uc *UserUseCase) Delete(ctx context.Context, utgid int64) error {
+	return uc.repo.Delete(ctx, utgid)
+}

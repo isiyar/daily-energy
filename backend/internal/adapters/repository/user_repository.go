@@ -5,6 +5,7 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
+	"golang.org/x/crypto/openpgp/errors"
 	"gorm.io/gorm"
 )
 
@@ -33,8 +34,12 @@ func (r *userRepository) Save(ctx context.Context, user models.User) error {
 }
 
 func (r *userRepository) Delete(ctx context.Context, utgid int64) error {
-	if err := r.db.WithContext(ctx).Delete(&adapterModels.User{}, "utgid = ?", utgid).Error; err != nil {
-		return err
+	res := r.db.WithContext(ctx).Delete(&adapterModels.User{}, "utgid = ?", utgid)
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return errors.ErrKeyIncorrect
 	}
 	return nil
 }
