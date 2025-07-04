@@ -25,10 +25,13 @@ func main() {
 		panic(err)
 	}
 
-	UserUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
-	userHandler := handler.NewUserHandler(UserUC)
+	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
+	actionHandler := handler.NewActionHandler(actionUC)
 
-	h := handler.NewHandler(userHandler)
+	userUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
+	userHandler := handler.NewUserHandler(userUC)
+
+	h := handler.NewHandler(actionHandler, userHandler)
 
 	r := gin.Default()
 	apiGroup := r.Group("/api")
