@@ -1,4 +1,4 @@
-package infraModels
+package adapterModels
 
 import "github.com/isiyar/daily-energy/backend/internal/domain/models"
 

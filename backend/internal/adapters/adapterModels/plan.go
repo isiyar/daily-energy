@@ -1,4 +1,4 @@
-package infraModels
+package adapterModels
 
 import "github.com/jackc/pgx/v5/pgtype"
 

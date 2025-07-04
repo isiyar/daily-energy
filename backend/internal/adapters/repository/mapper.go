@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/isiyar/daily-energy/backend/internal/adapters/infraModels"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -15,7 +15,7 @@ func ParseUUID(s string) (pgtype.UUID, error) {
 	return uuid, nil
 }
 
-func toDomainUser(u infraModels.User) models.User {
+func toDomainUser(u adapterModels.User) models.User {
 	return models.User{
 		Utgid:             u.Utgid,
 		Name:              u.Name,
@@ -30,8 +30,8 @@ func toDomainUser(u infraModels.User) models.User {
 	}
 }
 
-func toInfraUser(u models.User) infraModels.User {
-	return infraModels.User{
+func toAdapterUser(u models.User) adapterModels.User {
+	return adapterModels.User{
 		Utgid:             u.Utgid,
 		Name:              u.Name,
 		Gender:            u.Gender,
@@ -39,13 +39,13 @@ func toInfraUser(u models.User) infraModels.User {
 		Height:            u.Height,
 		Goal:              u.Goal,
 		PhysicalActivity:  u.PhysicalActivity,
-		Actions:           toInfraActions(u.Actions),
-		Plans:             toInfraPlans(u.Plans),
-		UserWeightHistory: toInfraUserWeightHistory(u.UserWeightHistory),
+		Actions:           toAdapterActions(u.Actions),
+		Plans:             toAdapterPlans(u.Plans),
+		UserWeightHistory: toAdapterUserWeightHistory(u.UserWeightHistory),
 	}
 }
 
-func toDomainActions(actions []infraModels.Action) []models.Action {
+func toDomainActions(actions []adapterModels.Action) []models.Action {
 	if actions == nil {
 		return nil
 	}
@@ -63,17 +63,17 @@ func toDomainActions(actions []infraModels.Action) []models.Action {
 	return res
 }
 
-func toInfraActions(actions []models.Action) []infraModels.Action {
+func toAdapterActions(actions []models.Action) []adapterModels.Action {
 	if actions == nil {
 		return nil
 	}
-	res := make([]infraModels.Action, len(actions))
+	res := make([]adapterModels.Action, len(actions))
 	for i, a := range actions {
 		id, err := ParseUUID(a.Id)
 		if err != nil {
 			continue
 		}
-		res[i] = infraModels.Action{
+		res[i] = adapterModels.Action{
 			Id:           id,
 			Utgid:        a.Utgid,
 			Date:         a.Date,
@@ -85,7 +85,7 @@ func toInfraActions(actions []models.Action) []infraModels.Action {
 	return res
 }
 
-func toDomainPlans(plans []infraModels.Plan) []models.Plan {
+func toDomainPlans(plans []adapterModels.Plan) []models.Plan {
 	if plans == nil {
 		return nil
 	}
@@ -103,17 +103,17 @@ func toDomainPlans(plans []infraModels.Plan) []models.Plan {
 	return res
 }
 
-func toInfraPlans(plans []models.Plan) []infraModels.Plan {
+func toAdapterPlans(plans []models.Plan) []adapterModels.Plan {
 	if plans == nil {
 		return nil
 	}
-	res := make([]infraModels.Plan, len(plans))
+	res := make([]adapterModels.Plan, len(plans))
 	for i, p := range plans {
 		id, err := ParseUUID(p.Id)
 		if err != nil {
 			continue
 		}
-		res[i] = infraModels.Plan{
+		res[i] = adapterModels.Plan{
 			Id:                id,
 			Utgid:             p.Utgid,
 			Date:              p.Date,
@@ -125,7 +125,7 @@ func toInfraPlans(plans []models.Plan) []infraModels.Plan {
 	return res
 }
 
-func toDomainUserWeightHistory(histories []infraModels.UserWeightHistory) []models.UserWeightHistory {
+func toDomainUserWeightHistory(histories []adapterModels.UserWeightHistory) []models.UserWeightHistory {
 	if histories == nil {
 		return nil
 	}
@@ -142,17 +142,17 @@ func toDomainUserWeightHistory(histories []infraModels.UserWeightHistory) []mode
 	return res
 }
 
-func toInfraUserWeightHistory(histories []models.UserWeightHistory) []infraModels.UserWeightHistory {
+func toAdapterUserWeightHistory(histories []models.UserWeightHistory) []adapterModels.UserWeightHistory {
 	if histories == nil {
 		return nil
 	}
-	res := make([]infraModels.UserWeightHistory, len(histories))
+	res := make([]adapterModels.UserWeightHistory, len(histories))
 	for i, h := range histories {
 		id, err := ParseUUID(h.Id)
 		if err != nil {
 			continue
 		}
-		res[i] = infraModels.UserWeightHistory{
+		res[i] = adapterModels.UserWeightHistory{
 			Id:         id,
 			Utgid:      h.Utgid,
 			Date:       h.Date,
