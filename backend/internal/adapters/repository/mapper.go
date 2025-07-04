@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"github.com/isiyar/daily-energy/backend/internal/adapters/infraModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
-	"github.com/isiyar/daily-energy/backend/internal/infrastructure/infraModels"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
