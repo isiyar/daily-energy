@@ -1,3 +1,7 @@
+import graphSrc from "./assets/graph.png";
+import smileSrc from "./assets/smile.png";
+import strongSrc from "./assets/strong.png";
+
 export function BackIcon() {
 	return (
 		<svg
@@ -27,4 +31,16 @@ export function BackIcon() {
 			</defs>
 		</svg>
 	);
+}
+
+export function GraphIcon() {
+	return <img alt="GraphIcon" src={graphSrc} />;
+}
+
+export function SmileIcon() {
+	return <img alt="SmileIcon" src={smileSrc} />;
+}
+
+export function StrongIcon() {
+	return <img alt="StrongIcon" src={strongSrc} />;
 }
