@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 	"github.com/isiyar/daily-energy/backend/config"
-	"github.com/isiyar/daily-energy/backend/internal/infrastructure/infraModels"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/infraModels"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

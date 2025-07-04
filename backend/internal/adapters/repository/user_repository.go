@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/infraModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
-	"github.com/isiyar/daily-energy/backend/internal/infrastructure/infraModels"
 	"gorm.io/gorm"
 )
 
