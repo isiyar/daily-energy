@@ -2,13 +2,14 @@ package handler
 
 import (
 	"errors"
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
-	"net/http"
-	"strconv"
 )
 
 type UserHandler struct {
@@ -63,4 +64,25 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, dto.ToUserResponse(domainUser))
+}
+
+func (h *UserHandler) UpdateUser(c *gin.Context) {
+	utgid, err := strconv.ParseInt(c.Param("utgid"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
+		return
+	}
+
+	var req dto.UserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "details": err.Error()})
+		return
+	}
+
+	new_user, err := h.userUC.Update(c.Request.Context(), utgid, req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, dto.ToUserResponse(new_user))
 }

@@ -39,7 +39,7 @@ services:
       - dev
 
   backend-prod:
-    container_name: backend-prod
+    container_name: backend-proddev
     image: ${DOCKER_USERNAME}/daily-energy-backend:${TAG:-latest}
     restart: unless-stopped
     env_file:
