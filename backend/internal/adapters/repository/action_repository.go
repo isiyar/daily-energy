@@ -5,6 +5,7 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
+	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"gorm.io/gorm"
 )
 
@@ -17,8 +18,13 @@ func NewActionRepository(db *gorm.DB) ports.ActionRepository {
 }
 
 func (r *actionRepository) GetById(ctx context.Context, id string) (models.Action, error) {
+	idUuid, err := ParseUUID(id)
+	if err != nil {
+		return models.Action{}, err
+	}
+
 	var a adapterModels.Action
-	if err := r.db.WithContext(ctx).First(&a, "id = ?", id).Error; err != nil {
+	if err := r.db.WithContext(ctx).First(&a, "id = ?", idUuid).Error; err != nil {
 		return models.Action{}, err
 	}
 	return toDomainAction(a), nil
@@ -29,12 +35,12 @@ func (r *actionRepository) GetByStartTimeAndFinishTime(ctx context.Context, Star
 	panic("implement me")
 }
 
-func (r *actionRepository) Save(ctx context.Context, user models.Action) error {
-	//TODO implement me
-	panic("implement me")
-}
+func (r *actionRepository) Save(ctx context.Context, action *models.Action) error {
+	action.Id = utils.GenerateUUID().String()
 
-func (r *actionRepository) Delete(ctx context.Context, id string) error {
-	//TODO implement me
-	panic("implement me")
+	actionAdapter := toAdapterAction(*action)
+	if err := r.db.WithContext(ctx).Save(&actionAdapter).Error; err != nil {
+		return err
+	}
+	return nil
 }

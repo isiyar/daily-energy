@@ -2,13 +2,13 @@ package handler
 
 import (
 	"errors"
-	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
 	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
+	"net/http"
 )
 
 type UserHandler struct {
@@ -70,8 +70,8 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
 		return
 	}
-  
-  if err := h.userUC.Delete(c.Request.Context(), utgid); err != nil {
+
+	if err := h.userUC.Delete(c.Request.Context(), utgid); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
@@ -88,7 +88,7 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	}
 
 	var req dto.UserRequest
-  
+
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "details": err.Error()})
 		return

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/config"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/db"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/http/router"
@@ -26,11 +26,11 @@ func main() {
 		panic(err)
 	}
 
-	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
-	actionHandler := handler.NewActionHandler(actionUC)
-
 	userUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
 	userHandler := handler.NewUserHandler(userUC)
+
+	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
+	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
 	h := handler.NewHandler(actionHandler, userHandler)
 
