@@ -67,7 +67,9 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 }
 
 func (h *UserHandler) UpdateUser(c *gin.Context) {
-	utgid, err := strconv.ParseInt(c.Param("utgid"), 10, 64)
+	utgidStr := c.Param("utgid")
+
+	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
 		return
@@ -76,6 +78,11 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	var req dto.UserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "details": err.Error()})
+		return
+	}
+
+	if err := validator.Struct(req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "validation failed", "details": err.Error()})
 		return
 	}
 
