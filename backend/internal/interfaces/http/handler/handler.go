@@ -1,15 +1,17 @@
 package handler
 
 type Handler struct {
-	Action *ActionHandler
-	Ai     *AiHandler
-	User   *UserHandler
+	Action            *ActionHandler
+	User              *UserHandler
+  UserWeightHistory *UserWeightHistoryHandler
+  Ai                *AiHandler
 }
 
-func NewHandler(actionUC *ActionHandler, AiUc *AiHandler, userUC *UserHandler) *Handler {
+func NewHandler(actionUC *ActionHandler, userUC *UserHandler, userWeightHistoryUC *UserWeightHistoryHandler, AiUc *AiHandler) *Handler {
 	return &Handler{
-		Action: actionUC,
-		Ai:     AiUc,
-		User:   userUC,
-	}
+		Action:            actionUC,
+		User:              userUC,
+    UserWeightHistory: userWeightHistoryUC
+    Ai:                AiUc,
+  }
 }

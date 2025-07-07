@@ -6,15 +6,6 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 )
 
-//func ParseUUID(s string) (uuid.UUID, error) {
-//	var id uuid.UUID
-//	err := uuid.Parse(s)
-//	if err != nil {
-//		return uuid.UUID{}, err
-//	}
-//	return uuid, nil
-//}
-
 func toDomainUser(u adapterModels.User) models.User {
 	return models.User{
 		Utgid:             u.Utgid,

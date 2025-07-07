@@ -29,12 +29,15 @@ func main() {
 	userUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
 	userHandler := handler.NewUserHandler(userUC)
 
+	UserWeightHistoryUC := usecase.NewUserWeightHistoryUseCase(repository.NewUserWeightHistoryRepository(db))
+	userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(UserWeightHistoryUC)
+
 	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
 	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
-	aiHandler := handler.NewAiHandler(c)
+  aiHandler := handler.NewAiHandler(c)
 
-	h := handler.NewHandler(actionHandler, aiHandler, userHandler)
+	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, aiHandler)
 
 	r := gin.Default()
 	r.Use(cors.Default())
