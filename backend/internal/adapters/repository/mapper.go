@@ -1,19 +1,19 @@
 package repository
 
 import (
+	"github.com/google/uuid"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func ParseUUID(s string) (pgtype.UUID, error) {
-	var uuid pgtype.UUID
-	err := uuid.Scan(s)
-	if err != nil {
-		return pgtype.UUID{}, err
-	}
-	return uuid, nil
-}
+//func ParseUUID(s string) (uuid.UUID, error) {
+//	var id uuid.UUID
+//	err := uuid.Parse(s)
+//	if err != nil {
+//		return uuid.UUID{}, err
+//	}
+//	return uuid, nil
+//}
 
 func toDomainUser(u adapterModels.User) models.User {
 	return models.User{
@@ -68,7 +68,7 @@ func toDomainActions(actions []adapterModels.Action) []models.Action {
 }
 
 func toAdapterAction(a models.Action) adapterModels.Action {
-	id, err := ParseUUID(a.Id)
+	id, err := uuid.Parse(a.Id)
 	if err != nil {
 		return adapterModels.Action{}
 	}
@@ -117,7 +117,7 @@ func toAdapterPlans(plans []models.Plan) []adapterModels.Plan {
 	}
 	res := make([]adapterModels.Plan, len(plans))
 	for i, p := range plans {
-		id, err := ParseUUID(p.Id)
+		id, err := uuid.Parse(p.Id)
 		if err != nil {
 			continue
 		}
@@ -156,7 +156,7 @@ func toAdapterUserWeightHistory(histories []models.UserWeightHistory) []adapterM
 	}
 	res := make([]adapterModels.UserWeightHistory, len(histories))
 	for i, h := range histories {
-		id, err := ParseUUID(h.Id)
+		id, err := uuid.Parse(h.Id)
 		if err != nil {
 			continue
 		}

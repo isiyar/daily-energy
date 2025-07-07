@@ -62,3 +62,16 @@ func (h *ActionHandler) CreateAction(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, dto.ToActionResponse(domainAction))
 }
+
+func (h *ActionHandler) GetAction(c *gin.Context) {
+	id := c.Param("id")
+	println(id)
+
+	action, err := h.actionUC.Execute(c.Request.Context(), id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ToActionResponse(action))
+}
