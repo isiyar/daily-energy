@@ -14,6 +14,6 @@ func RegisterRoutes(r gin.IRouter, h *handler.Handler) {
 	r.DELETE("/users/:utgid", h.User.DeleteUser)
 
 	r.POST("/users/:utgid/actions", h.Action.CreateAction)
-	//r.GET("/users/:utgid/actions", h.Action)
+	r.GET("/users/:utgid/actions", h.Action.GetActions)
 	r.GET("/actions/:id", h.Action.GetAction)
 }

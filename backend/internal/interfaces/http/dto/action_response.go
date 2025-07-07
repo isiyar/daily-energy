@@ -21,3 +21,11 @@ func ToActionResponse(a models.Action) ActionResponse {
 		Type:         a.Type,
 	}
 }
+
+func ToActionsResponse(actions []models.Action) []ActionResponse {
+	res := make([]ActionResponse, len(actions))
+	for i, a := range actions {
+		res[i] = ToActionResponse(a)
+	}
+	return res
+}

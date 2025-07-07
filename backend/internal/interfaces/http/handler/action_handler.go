@@ -9,6 +9,7 @@ import (
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 )
 
 type ActionHandler struct {
@@ -65,7 +66,6 @@ func (h *ActionHandler) CreateAction(c *gin.Context) {
 
 func (h *ActionHandler) GetAction(c *gin.Context) {
 	id := c.Param("id")
-	println(id)
 
 	action, err := h.actionUC.Execute(c.Request.Context(), id)
 	if err != nil {
@@ -74,4 +74,45 @@ func (h *ActionHandler) GetAction(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.ToActionResponse(action))
+}
+
+func (h *ActionHandler) GetActions(c *gin.Context) {
+	start := c.Query("start_at")
+	finish := c.Query("finish_at")
+
+	startInt, err := strconv.ParseInt(start, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid start"})
+		return
+	}
+
+	finishInt, err := strconv.ParseInt(finish, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid end"})
+		return
+	}
+
+	if startInt > finishInt {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "start must be less end"})
+	}
+
+	utgid, err := utils.ParseUtgid(c)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
+		return
+	}
+
+	if _, err := h.userUC.Execute(c.Request.Context(), utgid); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	actions, err := h.actionUC.GetByStartTimeAndFinishTime(c.Request.Context(), startInt, finishInt, utgid)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ToActionsResponse(actions))
 }

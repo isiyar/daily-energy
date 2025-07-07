@@ -21,3 +21,7 @@ func (uc *ActionUseCase) Execute(ctx context.Context, id string) (models.Action,
 func (uc *ActionUseCase) Add(ctx context.Context, action *models.Action) error {
 	return uc.repo.Save(ctx, action)
 }
+
+func (uc *ActionUseCase) GetByStartTimeAndFinishTime(ctx context.Context, StartAt, FinishAt, utgid int64) ([]models.Action, error) {
+	return uc.repo.GetByStartTimeAndFinishTime(ctx, StartAt, FinishAt, utgid)
+}
