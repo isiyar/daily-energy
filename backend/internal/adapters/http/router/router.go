@@ -16,4 +16,6 @@ func RegisterRoutes(r gin.IRouter, h *handler.Handler) {
 	r.POST("/users/:utgid/actions", h.Action.CreateAction)
 	r.GET("/users/:utgid/actions", h.Action.GetActions)
 	r.GET("/actions/:id", h.Action.GetAction)
+
+	r.POST("ai/calories", h.Ai.CalculationCalories)
 }

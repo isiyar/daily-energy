@@ -32,7 +32,9 @@ func main() {
 	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
 	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
-	h := handler.NewHandler(actionHandler, userHandler)
+	aiHandler := handler.NewAiHandler(c)
+
+	h := handler.NewHandler(actionHandler, aiHandler, userHandler)
 
 	r := gin.Default()
 	r.Use(cors.Default())
