@@ -1,6 +1,8 @@
 package adapterModels
 
-import "github.com/isiyar/daily-energy/backend/internal/domain/models"
+import (
+	"github.com/isiyar/daily-energy/backend/internal/domain/models"
+)
 
 type User struct {
 	Utgid             int64                   `gorm:"column:utgid;primaryKey"`
