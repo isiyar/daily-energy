@@ -13,6 +13,8 @@ type Config struct {
 	DBPassword       string `mapstructure:"DB_PASSWORD"`
 	DBName           string `mapstructure:"DB_NAME"`
 	TelegramBotToken string `mapstructure:"TELEGRAM_BOT_TOKEN"`
+	ApiPath          string `mapstructure:"API_PATH"`
+	ApiKey           string `mapstructure:"API_KEY"`
 }
 
 func LoadConfig() (Config, error) {

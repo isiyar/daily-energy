@@ -20,6 +20,8 @@ tags:
     description: Операции с действиями пользователей
   - name: weight-history
     description: История изменения веса пользователей
+  - name: ai
+    description: Взаимодействие с ИИ
 
 paths:
   /api/users:
@@ -473,6 +475,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+
+
+  /api/ai/calories:
+    post:
+      summary: Рассчитать калорийность блюда
+      tags: [ ai ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaloriesRequest'
+      responses:
+        '200':
+          description: Калории рассчитаны
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaloriesResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     UserResponse:
@@ -648,6 +682,22 @@ components:
         type:
           type: string
           enum: [ Food, Activity ]
+
+    CaloriesRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+
+    CaloriesResponse:
+      type: object
+      required:
+        - calories
+      properties:
+        calories:
+          type: integer
 
     ErrorResponse:
       type: object
