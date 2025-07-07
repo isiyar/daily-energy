@@ -2,11 +2,11 @@ package adapterModels
 
 import (
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
-	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/google/uuid"
 )
 
 type Action struct {
-	Id           pgtype.UUID       `gorm:"column:id;primaryKey"`
+	Id           uuid.UUID       `gorm:"column:id;primaryKey"`
 	Utgid        int64             `gorm:"column:utgid"`
 	Date         int64             `gorm:"column:date"`
 	ActivityName string            `gorm:"column:activity_name"`

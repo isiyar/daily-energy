@@ -1,9 +1,11 @@
 package adapterModels
 
-import "github.com/jackc/pgx/v5/pgtype"
+import (
+	"github.com/google/uuid"
+)
 
 type UserWeightHistory struct {
-	Id         pgtype.UUID `gorm:"column:id;primaryKey"`
+	Id         uuid.UUID `gorm:"column:id;primaryKey"`
 	Utgid      int64       `gorm:"column:utgid"`
 	Date       int64       `gorm:"column:date"`
 	UserWeight int         `gorm:"column:user_weight"`

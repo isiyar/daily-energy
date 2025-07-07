@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/isiyar/daily-energy/backend/config"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/db"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/http/router"
@@ -26,12 +27,15 @@ func main() {
 	}
 
 	UserUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
+	UserWeightHistoryUC := usecase.NewUserWeightHistoryUseCase(repository.NewUserWeightHistoryRepository(db))
 	userHandler := handler.NewUserHandler(UserUC)
+	userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(UserWeightHistoryUC)
 
-	h := handler.NewHandler(userHandler)
+	h := handler.NewHandler(userHandler, userWeightHistoryHandler)
 
 	r := gin.Default()
 	apiGroup := r.Group("/api")
 	router.RegisterRoutes(apiGroup, h)
+	r.Use(cors.Default())
 	r.Run()
 }

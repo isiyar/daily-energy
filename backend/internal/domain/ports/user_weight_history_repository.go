@@ -6,7 +6,6 @@ import (
 )
 
 type UserWeightHistoryRepository interface {
-	GetByUtgid(ctx context.Context, utgid int64) (models.UserWeightHistory, error)
-	Save(ctx context.Context, user models.UserWeightHistory) error
-	Delete(ctx context.Context, utgid int64) error
+	GetUserWeightHistory(ctx context.Context, utgid int64) ([]models.UserWeightHistory, error)
+	Save(ctx context.Context, userWeightHistory models.UserWeightHistory) error
 }

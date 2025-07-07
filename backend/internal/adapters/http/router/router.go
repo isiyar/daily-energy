@@ -7,8 +7,11 @@ import (
 
 func RegisterRoutes(r gin.IRouter, h *handler.Handler) {
 	r.GET("/ping", handler.PingHandler)
+	r.GET("/users/:utgid/weight-history", h.UserWeightHistory.GetUserWeightHistory)
+	r.POST("users/:utgid/weight-history", h.UserWeightHistory.CreateUserWeightHistory)
 
 	r.POST("/users", h.User.CreateUser)
 	r.GET("/users/:utgid", h.User.GetUser)
 	r.DELETE("/users/:utgid", h.User.DeleteUser)
+
 }
