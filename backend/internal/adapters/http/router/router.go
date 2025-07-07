@@ -16,4 +16,7 @@ func RegisterRoutes(r gin.IRouter, h *handler.Handler) {
 	r.POST("/users/:utgid/actions", h.Action.CreateAction)
 	r.GET("/users/:utgid/actions", h.Action.GetActions)
 	r.GET("/actions/:id", h.Action.GetAction)
+  
+  r.GET("/users/:utgid/weight-history", h.UserWeightHistory.GetUserWeightHistory)
+	r.POST("users/:utgid/weight-history", h.UserWeightHistory.CreateUserWeightHistory)
 }
