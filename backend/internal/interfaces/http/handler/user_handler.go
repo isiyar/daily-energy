@@ -3,14 +3,12 @@ package handler
 import (
 	"errors"
 	"net/http"
-	"strconv"
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
 	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
-	"net/http"
 )
 
 type UserHandler struct {
