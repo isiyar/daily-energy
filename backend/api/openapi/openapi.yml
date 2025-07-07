@@ -530,11 +530,17 @@ components:
     UserRequest:
       type: object
       required:
+        - name
         - gender
+        - weight
+        - height
         - goal
         - physical_activity
-        - name
       properties:
+        weight:
+          type: integer
+        height:
+          type: integer
         gender:
           type: string
           enum: [ Male, Female ]
