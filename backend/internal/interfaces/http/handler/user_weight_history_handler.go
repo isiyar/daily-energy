@@ -21,7 +21,7 @@ func NewUserWeightHistoryHandler(userWeightHistoryUC *usecase.UserWeightHistoryU
 
 func (h *UserWeightHistoryHandler) GetUserWeightHistory(c *gin.Context) {
 	utgidStr := c.Param("utgid")
-	
+
 	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
@@ -47,20 +47,20 @@ func (h *UserWeightHistoryHandler) CreateUserWeightHistory(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "details": err.Error()})
 		return
 	}
-	
+
 	if err := validator.Struct(req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "validation failed", "details": err.Error()})
 		return
 	}
-	
+
 	utgidStr := c.Param("utgid")
-	
+
 	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
 		return
 	}
-	
+
 	domainUserWeightHistory := req.ToUserWeightHistory(utgid)
 
 	if err := h.userWeightHistoryUC.Add(c.Request.Context(), domainUserWeightHistory); err != nil {

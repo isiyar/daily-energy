@@ -1,12 +1,12 @@
 package validator
 
 import (
-	"github.com/gin-gonic/gin"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"github.com/gin-gonic/gin"
 	"net/url"
 	"sort"
 	"strconv"
@@ -21,7 +21,6 @@ type InitData struct {
 type BotSettings struct {
 	Token string
 }
-
 
 func GetTelegramInitData(ctx *gin.Context, botToken string) (*InitData, error) {
 	initdata := ctx.Param("initData")

@@ -4,7 +4,6 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/pkg"
 )
-	
 
 type UserWeightHistoryCreate struct {
 	Date   int64 `json:"date" validate:"required"`
@@ -14,9 +13,9 @@ type UserWeightHistoryCreate struct {
 
 func (uw *UserWeightHistoryCreate) ToUserWeightHistory(utgid int64) models.UserWeightHistory {
 	return models.UserWeightHistory{
-		Id: utils.GenerateUUID().String(),
-		Utgid: utgid,
-		Date: uw.Date,
+		Id:         utils.GenerateUUID().String(),
+		Utgid:      utgid,
+		Date:       uw.Date,
 		UserWeight: uw.Weight,
 		UserHeight: uw.Height,
 	}

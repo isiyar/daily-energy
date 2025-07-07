@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
+)
 
 func toDomainUser(u adapterModels.User) models.User {
 	return models.User{

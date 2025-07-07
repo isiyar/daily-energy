@@ -11,8 +11,8 @@ type UserWeightHistoryResponse struct {
 
 func ToUserWeightHistoryResponse(uwh models.UserWeightHistory) UserWeightHistoryResponse {
 	return UserWeightHistoryResponse{
-		Utgid: uwh.Utgid,
-		Date: uwh.Date,
+		Utgid:  uwh.Utgid,
+		Date:   uwh.Date,
 		Weight: uwh.UserWeight,
 		Height: uwh.UserHeight,
 	}
