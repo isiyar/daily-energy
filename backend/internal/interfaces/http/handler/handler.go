@@ -1,9 +1,13 @@
 package handler
 
 type Handler struct {
-	User *UserHandler
+	Action *ActionHandler
+	User   *UserHandler
 }
 
-func NewHandler(userUC *UserHandler) *Handler {
-	return &Handler{User: userUC}
+func NewHandler(actionUC *ActionHandler, userUC *UserHandler) *Handler {
+	return &Handler{
+		Action: actionUC,
+		User:   userUC,
+	}
 }
