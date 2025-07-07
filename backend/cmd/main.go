@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/isiyar/daily-energy/backend/config"
@@ -25,15 +26,20 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+  
+	userUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
+	userHandler := handler.NewUserHandler(userUC)
+  
+  UserWeightHistoryUC := usecase.NewUserWeightHistoryUseCase(repository.NewUserWeightHistoryRepository(db))
+  userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(UserWeightHistoryUC)
 
-	UserUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
-	UserWeightHistoryUC := usecase.NewUserWeightHistoryUseCase(repository.NewUserWeightHistoryRepository(db))
-	userHandler := handler.NewUserHandler(UserUC)
-	userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(UserWeightHistoryUC)
+	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
+	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
-	h := handler.NewHandler(userHandler, userWeightHistoryHandler)
+	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler)
 
 	r := gin.Default()
+	r.Use(cors.Default())
 	apiGroup := r.Group("/api")
 	router.RegisterRoutes(apiGroup, h)
 	r.Use(cors.Default())

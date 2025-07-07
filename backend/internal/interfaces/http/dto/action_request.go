@@ -8,3 +8,13 @@ type ActionRequest struct {
 	Calories     int               `json:"calories" validate:"required,min=1"`
 	Type         models.ActionType `json:"type" validate:"required"`
 }
+
+func (a *ActionRequest) ToAction(utgid int64) models.Action {
+	return models.Action{
+		Utgid:        utgid,
+		Date:         a.Date,
+		ActivityName: a.ActivityName,
+		Calories:     a.Calories,
+		Type:         a.Type,
+	}
+}

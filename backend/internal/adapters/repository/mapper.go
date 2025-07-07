@@ -1,19 +1,9 @@
 package repository
 
 import (
+	"github.com/google/uuid"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
-	"github.com/google/uuid"
-)
-
-// func ParseUUID(s string) (pgtype.UUID, error) {
-// 	var uuid pgtype.UUID
-// 	err := uuid.Scan(s)
-// 	if err != nil {
-// 		return pgtype.UUID{}, err
-// 	}
-// 	return uuid, nil
-// }
 
 func toDomainUser(u adapterModels.User) models.User {
 	return models.User{
@@ -45,22 +35,41 @@ func toAdapterUser(u models.User) adapterModels.User {
 	}
 }
 
+func toDomainAction(a adapterModels.Action) models.Action {
+	return models.Action{
+		Id:           a.Id.String(),
+		Utgid:        a.Utgid,
+		Date:         a.Date,
+		ActivityName: a.ActivityName,
+		Calories:     a.Calories,
+		Type:         a.Type,
+	}
+}
+
 func toDomainActions(actions []adapterModels.Action) []models.Action {
 	if actions == nil {
 		return nil
 	}
 	res := make([]models.Action, len(actions))
 	for i, a := range actions {
-		res[i] = models.Action{
-			Id:           a.Id.String(),
-			Utgid:        a.Utgid,
-			Date:         a.Date,
-			ActivityName: a.ActivityName,
-			Calories:     a.Calories,
-			Type:         a.Type,
-		}
+		res[i] = toDomainAction(a)
 	}
 	return res
+}
+
+func toAdapterAction(a models.Action) adapterModels.Action {
+	id, err := uuid.Parse(a.Id)
+	if err != nil {
+		return adapterModels.Action{}
+	}
+	return adapterModels.Action{
+		Id:           id,
+		Utgid:        a.Utgid,
+		Date:         a.Date,
+		ActivityName: a.ActivityName,
+		Calories:     a.Calories,
+		Type:         a.Type,
+	}
 }
 
 func toAdapterActions(actions []models.Action) []adapterModels.Action {
@@ -69,18 +78,7 @@ func toAdapterActions(actions []models.Action) []adapterModels.Action {
 	}
 	res := make([]adapterModels.Action, len(actions))
 	for i, a := range actions {
-		id, err := uuid.Parse(a.Id)
-		if err != nil {
-			continue
-		}
-		res[i] = adapterModels.Action{
-			Id:           id,
-			Utgid:        a.Utgid,
-			Date:         a.Date,
-			ActivityName: a.ActivityName,
-			Calories:     a.Calories,
-			Type:         a.Type,
-		}
+		res[i] = toAdapterAction(a)
 	}
 	return res
 }

@@ -1,13 +1,15 @@
 package handler
 
 type Handler struct {
+  Action *ActionHandler
 	User *UserHandler
 	UserWeightHistory *UserWeightHistoryHandler
 }
 
-func NewHandler(userUC *UserHandler, userWeightHistoryUC *UserWeightHistoryHandler) *Handler {
+func NewHandler(actionUC *ActionHandler, userUC *UserHandler, userWeightHistoryUC *UserWeightHistoryHandler) *Handler {
 	return &Handler{
+    Action *ActionHandler
 		User: userUC,
 		UserWeightHistory: userWeightHistoryUC,
-	}
+  }
 }
