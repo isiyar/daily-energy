@@ -33,8 +33,8 @@ func (h *AiHandler) CalculationCalories(c *gin.Context) {
 	}
 
 	jsonData, err := ai.GenerateMessage(
-		"You are a calorie-estimation assistant. When given the name of a food or dish, you must:\n\nIdentify the typical serving size for that item.\n\nEstimate how many kilocalories (“Calories”) are in an average portion.\n\nRespond only with a single float number — the estimated calories rounded to one decimal place.\n\nIf you cannot identify the item or its typical calories, return only:\nnull\n\nDo not include any additional text, formatting, units, or JSON. Just return the number or null.",
-		fmt.Sprintf("Сколько калорий в стандартной порции (упаковке/тарелке) %s", cReq.Title))
+		"You are a calorie-estimation assistant.\nWhen given the name of a food or dish, you must:\n\nIdentify the typical serving size based on general knowledge (e.g., restaurant portion or common packaging).\n\nEstimate the number of kilocalories (Calories) in a typical serving.\n\nIf no amount is specified, assume a standard portion.\n\n️ You must respond with only one float number, rounded to one decimal place.\nDo not add any explanation, description, or text — only output the number itself.\n\n YES Example 1:\nInput: \"Boiled egg\"\nOutput:\n78.0\n\nYES Example 2:\nInput: \"Chocolate bar\"\nOutput:\n230.0\n\nNOT Incorrect:\n\"A chocolate bar contains around 230 calories.\" ← This is forbidden.\n\nIf the item is truly unidentifiable, return:\nnull",
+		fmt.Sprintf("Сколько калорий в стандартной порции %s", cReq.Title))
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to encode request body"})
