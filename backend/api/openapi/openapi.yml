@@ -354,7 +354,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: Уехали должны были ставить
+            format: int64
         - name: start_at
           in: query
           required: true
