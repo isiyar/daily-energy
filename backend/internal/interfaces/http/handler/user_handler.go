@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
+	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
 	"net/http"
-	"strconv"
 )
 
 type UserHandler struct {
@@ -20,9 +20,7 @@ func NewUserHandler(userUC *usecase.UserUseCase) *UserHandler {
 }
 
 func (h *UserHandler) GetUser(c *gin.Context) {
-	utgidStr := c.Param("utgid")
-
-	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
+	utgid, err := utils.ParseUtgid(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
 		return
@@ -66,9 +64,8 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 }
 
 func (h *UserHandler) DeleteUser(c *gin.Context) {
-	utgidStr := c.Param("utgid")
+	utgid, err := utils.ParseUtgid(c)
 
-	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
 		return
