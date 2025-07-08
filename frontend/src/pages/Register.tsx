@@ -3,7 +3,7 @@ import { Progress } from "@heroui/react";
 import { useState } from "react";
 
 import { QUESTIONS } from "@/constants";
-import { BackIcon, BottomArrowIcon } from "@/icons";
+import { BackIcon } from "@/icons";
 import { Name } from "@/layouts/Name";
 import { Target } from "@/layouts/Target";
 import { Weight } from "@/layouts/Weight.tsx";
@@ -11,9 +11,22 @@ import { Height } from "@/layouts/Height.tsx";
 import { Gender } from "@/layouts/Gender.tsx";
 import { Birthday } from "@/layouts/Birthday.tsx";
 import { Activity } from "@/layouts/Activity.tsx";
+import { User } from "@/api/user.ts";
+import { useRegister } from "@/hooks/user.ts";
+
+export interface FormProops {
+  onChange?: (
+    value: ((prevState: Partial<User>) => Partial<User>) | Partial<User>,
+  ) => void;
+  increaseQuestionId: () => void;
+}
 
 export function Register() {
+  const [userData, setUserData] = useState<Partial<User>>({
+    utgid: window.Telegram.WebApp.initDataUnsafe.user.id,
+  });
   const [questionId, setQuestionId] = useState(0);
+  const { mutate } = useRegister();
 
   function increaseQuestionId() {
     if (questionId < QUESTIONS.length - 1) {
@@ -25,6 +38,11 @@ export function Register() {
     if (questionId > 0) {
       setQuestionId(questionId - 1);
     }
+  }
+
+  function sendUserData() {
+    console.log(userData);
+    mutate(userData);
   }
 
   return (
@@ -43,26 +61,57 @@ export function Register() {
         {QUESTIONS[questionId]}
       </h1>
       <main>
-        {questionId === 0 && <Name />}
-        {questionId === 1 && <Gender />}
-        {questionId === 2 && <Target />}
-        {questionId === 3 && <Weight />}
-        {questionId === 4 && <Height />}
-        {questionId === 5 && <Birthday />}
-        {questionId === 6 && <Activity />}
-        <Button
-          className={`float-right text-[6dvw] p-[5dvw] bg-[#F08629] text-white ${questionId === 6 ? "mt-[7dvh]" : "mt-[15dvh]"}`}
-          color="warning"
-          size="lg"
-          onPress={increaseQuestionId}
-        >
-          {questionId === QUESTIONS.length - 1 ? "Создать план" : "→"}
-        </Button>
-        {questionId === 6 && (
-          <div className="absolute bottom-[5dvh]">
-            <BottomArrowIcon />
-          </div>
+        {questionId === 0 && (
+          <Name
+            increaseQuestionId={increaseQuestionId}
+            onChange={setUserData}
+          />
         )}
+        {questionId === 1 && (
+          <Gender
+            increaseQuestionId={increaseQuestionId}
+            onChange={setUserData}
+          />
+        )}
+        {questionId === 2 && (
+          <Target
+            increaseQuestionId={increaseQuestionId}
+            onChange={setUserData}
+          />
+        )}
+        {questionId === 3 && (
+          <Weight
+            increaseQuestionId={increaseQuestionId}
+            onChange={setUserData}
+          />
+        )}
+        {questionId === 4 && (
+          <Height
+            increaseQuestionId={increaseQuestionId}
+            onChange={setUserData}
+          />
+        )}
+        {questionId === 5 && (
+          <Birthday
+            increaseQuestionId={increaseQuestionId}
+            onChange={setUserData}
+          />
+        )}
+        {questionId === 6 && (
+          <Activity
+            increaseQuestionId={increaseQuestionId}
+            sendUserData={sendUserData}
+            onChange={setUserData}
+          />
+        )}
+        {/*<Button*/}
+        {/*  className={`float-right text-[6dvw] p-[5dvw] bg-[#F08629] text-white ${questionId === 6 ? "mt-[7dvh]" : "mt-[15dvh]"}`}*/}
+        {/*  color="warning"*/}
+        {/*  size="lg"*/}
+        {/*  onPress={increaseQuestionId}*/}
+        {/*>*/}
+        {/*  {questionId === QUESTIONS.length - 1 ? "Создать план" : "→"}*/}
+        {/*</Button>*/}
       </main>
     </div>
   );

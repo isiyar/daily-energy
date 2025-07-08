@@ -1,17 +1,48 @@
 import { Button } from "@heroui/button";
+import { useEffect, useState } from "react";
 
 import {
   HighActivityIcon,
   LowActivityIcon,
   MiddleActivityIcon,
 } from "@/icons.tsx";
+import { FormProops } from "@/pages/Register.tsx";
+import { PhysicalActivity } from "@/api/user.ts";
 
-export function Activity() {
+interface FormProopsWithSendData extends FormProops {
+  sendUserData: () => void;
+}
+
+export function Activity({
+  onChange,
+  increaseQuestionId,
+  sendUserData,
+}: FormProopsWithSendData) {
+  const [pendingUpdate, setPendingUpdate] = useState<PhysicalActivity | null>(
+    null,
+  );
+
+  const handleAnswer = (physical_activity: PhysicalActivity) => {
+    if (onChange) {
+      onChange((prev) => ({ ...prev, physical_activity }));
+    }
+    increaseQuestionId();
+    setPendingUpdate(physical_activity);
+  };
+
+  useEffect(() => {
+    if (pendingUpdate !== null) {
+      sendUserData();
+      setPendingUpdate(null);
+    }
+  }, [pendingUpdate]);
+
   return (
     <form className="mt-[6dvh] flex flex-col gap-[4dvh] ml-[5dvw] mr-[5dvw]">
       <Button
         className="[box-shadow:0_0_5px_5px_rgba(240,134,41,0.3)] py-[5dvh]"
         color="default"
+        onPress={() => handleAnswer("Low")}
       >
         <div className="flex w-full">
           <LowActivityIcon />
@@ -26,6 +57,7 @@ export function Activity() {
       <Button
         className="[box-shadow:0_0_5px_5px_rgba(240,134,41,0.3)] py-[5dvh]"
         color="default"
+        onPress={() => handleAnswer("Medium")}
       >
         <div className="flex w-full">
           <MiddleActivityIcon />
@@ -40,6 +72,7 @@ export function Activity() {
       <Button
         className="[box-shadow:0_0_5px_5px_rgba(240,134,41,0.3)] py-[5dvh]"
         color="default"
+        onPress={() => handleAnswer("High")}
       >
         <div className="flex w-full">
           <HighActivityIcon />

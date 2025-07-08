@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import App from "./App.tsx";
 import { Provider } from "./provider.tsx";
-import "@/styles/globals.css";
+import "./styles/globals.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {

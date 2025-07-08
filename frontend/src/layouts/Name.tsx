@@ -1,6 +1,23 @@
 import { Input } from "@heroui/input";
+import { useState } from "react";
+import { Button } from "@heroui/button";
 
-export function Name() {
+import { FormProops } from "@/pages/Register.tsx";
+
+export function Name({ onChange, increaseQuestionId }: FormProops) {
+  const [name, setName] = useState<string>("");
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setName(e.target.value);
+  }
+
+  function handleAnswer() {
+    if (onChange) {
+      onChange((prev) => ({ ...prev, name }));
+    }
+    increaseQuestionId();
+  }
+
   return (
     <form className="mt-[6dvh]">
       <Input
@@ -10,7 +27,16 @@ export function Name() {
         radius="md"
         size="lg"
         type="text"
+        onChange={handleInputChange}
       />
+      <Button
+        className={`float-right text-[6dvw] p-[5dvw] bg-[#F08629] text-white mt-[15dvh]`}
+        color="warning"
+        size="lg"
+        onPress={handleAnswer}
+      >
+        →
+      </Button>
     </form>
   );
 }

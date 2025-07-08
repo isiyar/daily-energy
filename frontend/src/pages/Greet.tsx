@@ -1,7 +1,6 @@
 import { Button } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 
-import arrowSrc from "../assets/arrow.png";
 import logoSrc from "../assets/logo.png";
 
 export function Greet() {
@@ -20,11 +19,6 @@ export function Greet() {
           Твой персональный гид в<br />
           мире здоровья.
         </p>
-        <img
-          alt="arrowSrc"
-          className="w-[18dvh] mt-[3dvh] ml-[5dvw]"
-          src={arrowSrc}
-        />
       </div>
       <Button
         className="ml-auto mr-[5dvw] text-[30px] p-[2dvw] bg-[#F08629] text-white"

@@ -16,7 +16,6 @@ function App() {
   useEffect(() => {
     if (data) {
       navigate("/");
-      console.log(data);
     } else if (
       error &&
       axios.isAxiosError(error) &&
@@ -24,7 +23,7 @@ function App() {
     ) {
       navigate("/greet");
     }
-  }, [data, error, navigate]);
+  }, [data, error]);
 
   return (
     <Routes>
