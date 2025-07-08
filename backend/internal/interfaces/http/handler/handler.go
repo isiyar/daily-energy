@@ -5,7 +5,7 @@ type Handler struct {
 	User              *UserHandler
 	UserWeightHistory *UserWeightHistoryHandler
 	Ai                *AiHandler
-	Chat *ChatHandler
+	Chat              *ChatHandler
 }
 
 func NewHandler(actionUC *ActionHandler, userUC *UserHandler, userWeightHistoryUC *UserWeightHistoryHandler, AiUc *AiHandler, ChatUC *ChatHandler) *Handler {
@@ -14,6 +14,6 @@ func NewHandler(actionUC *ActionHandler, userUC *UserHandler, userWeightHistoryU
 		User:              userUC,
 		UserWeightHistory: userWeightHistoryUC,
 		Ai:                AiUc,
-		Chat: ChatUC,
+		Chat:              ChatUC,
 	}
 }

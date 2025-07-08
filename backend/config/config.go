@@ -15,14 +15,14 @@ type Config struct {
 	TelegramBotToken string `mapstructure:"TELEGRAM_BOT_TOKEN"`
 	ApiPath          string `mapstructure:"API_PATH"`
 	ApiKey           string `mapstructure:"API_KEY"`
-	SystemPrompt string
+	SystemPrompt     string
 }
 
 func LoadConfig() (Config, error) {
 	var c Config
-	
+
 	viper.AutomaticEnv()
-	
+
 	err := viper.Unmarshal(&c)
 	if err != nil {
 		return c, fmt.Errorf("unable to decode into struct: %v", err)
