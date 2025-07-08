@@ -36,9 +36,8 @@ func main() {
 	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
 	aiHandler := handler.NewAiHandler(c)
-	chatHandler := handler.NewChatHandler(c)
 
-	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, aiHandler, chatHandler)
+	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, aiHandler)
 
 	r := gin.Default()
 	r.Use(cors.Default())
