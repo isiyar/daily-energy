@@ -18,6 +18,7 @@ type User struct {
 	Utgid             int64
 	Name              string
 	Gender            Gender
+	DateofBirth int64
 	Weight            int
 	Height            int
 	Goal              Goal

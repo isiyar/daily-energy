@@ -11,6 +11,7 @@ func toDomainUser(u adapterModels.User) models.User {
 		Utgid:             u.Utgid,
 		Name:              u.Name,
 		Gender:            u.Gender,
+		DateofBirth: u.DateofBirth,
 		Weight:            u.Weight,
 		Height:            u.Height,
 		Goal:              u.Goal,
@@ -25,7 +26,8 @@ func toAdapterUser(u models.User) adapterModels.User {
 	return adapterModels.User{
 		Utgid:             u.Utgid,
 		Name:              u.Name,
-		Gender:            u.Gender,
+		Gender:    u.Gender,
+		DateofBirth:        u.DateofBirth,
 		Weight:            u.Weight,
 		Height:            u.Height,
 		Goal:              u.Goal,
