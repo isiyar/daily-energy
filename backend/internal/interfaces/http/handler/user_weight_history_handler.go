@@ -12,11 +12,15 @@ import (
 )
 
 type UserWeightHistoryHandler struct {
+	userUC              *usecase.UserUseCase
 	userWeightHistoryUC *usecase.UserWeightHistoryUseCase
 }
 
-func NewUserWeightHistoryHandler(userWeightHistoryUC *usecase.UserWeightHistoryUseCase) *UserWeightHistoryHandler {
-	return &UserWeightHistoryHandler{userWeightHistoryUC: userWeightHistoryUC}
+func NewUserWeightHistoryHandler(userUC *usecase.UserUseCase, userWeightHistoryUC *usecase.UserWeightHistoryUseCase) *UserWeightHistoryHandler {
+	return &UserWeightHistoryHandler{
+		userUC:              userUC,
+		userWeightHistoryUC: userWeightHistoryUC,
+	}
 }
 
 func (h *UserWeightHistoryHandler) GetUserWeightHistory(c *gin.Context) {
@@ -25,6 +29,11 @@ func (h *UserWeightHistoryHandler) GetUserWeightHistory(c *gin.Context) {
 	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
+		return
+	}
+
+	if _, err := h.userUC.Execute(c.Request.Context(), utgid); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -58,6 +67,11 @@ func (h *UserWeightHistoryHandler) CreateUserWeightHistory(c *gin.Context) {
 	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
+		return
+	}
+
+	if _, err := h.userUC.Execute(c.Request.Context(), utgid); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
 

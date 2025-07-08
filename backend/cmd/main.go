@@ -30,7 +30,7 @@ func main() {
 	userHandler := handler.NewUserHandler(userUC)
 
 	UserWeightHistoryUC := usecase.NewUserWeightHistoryUseCase(repository.NewUserWeightHistoryRepository(db))
-	userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(UserWeightHistoryUC)
+	userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(userUC, UserWeightHistoryUC)
 
 	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
 	actionHandler := handler.NewActionHandler(actionUC, userUC)
