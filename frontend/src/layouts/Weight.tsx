@@ -8,7 +8,7 @@ export function Weight() {
   return (
     <form>
       <NumberSlider
-        numbers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+        numbers={Array.from({ length: 171 }, (_, i) => i + 30)}
         setValue={setCurrentWeight}
       />
     </form>

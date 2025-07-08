@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 export function NumberSlider({
   numbers,
@@ -7,9 +7,9 @@ export function NumberSlider({
   numbers: number[];
   setValue: (value: number) => void;
 }) {
-  const [currentIndex, setCurrentIndex] = useState(
-    numbers.length % 2 === 0 ? numbers.length / 2 : (numbers.length + 1) / 2,
-  );
+  const initialIndex =
+    numbers.length % 2 === 0 ? numbers.length / 2 : (numbers.length - 1) / 2;
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -17,13 +17,13 @@ export function NumberSlider({
   const SWIPE_THRESHOLD = 30;
   const ANIMATION_DURATION = 300;
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % numbers.length);
-  };
+  }, [numbers.length]);
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + numbers.length) % numbers.length);
-  };
+  }, [numbers.length]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setStartX(e.touches[0].clientX);
@@ -48,7 +48,7 @@ export function NumberSlider({
     setIsDragging(false);
   };
 
-  const getVisibleNumbers = () => {
+  const getVisibleNumbers = useCallback(() => {
     setValue(numbers[currentIndex]);
 
     return [
@@ -56,30 +56,42 @@ export function NumberSlider({
       numbers[currentIndex],
       numbers[(currentIndex + 1) % numbers.length],
     ];
-  };
+  }, [currentIndex, numbers, setValue]);
 
   const visibleNumbers = getVisibleNumbers();
 
+  const handleButtonClick = useCallback(
+    (direction: "prev" | "next") => {
+      return (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        direction === "prev" ? goPrev() : goNext();
+      };
+    },
+    [goPrev, goNext],
+  );
+
   return (
-    <div className="flex flex-col items-center mt-[10dvh]">
-      <div className="relative w-full max-w-xs overflow-hidden">
+    <div className="flex flex-col w-full align-middle items-center mt-[6dvh] pl-[5dvw] pr-[5dvw]">
+      <div className="relative w-full overflow-hidden">
         <button
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 text-white rounded-full font-[300] text-[10dvw]"
-          onClick={goPrev}
+          onClick={handleButtonClick("prev")}
+          onTouchStart={(e) => e.preventDefault()}
         >
           &lt;
         </button>
-
         <button
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 text-white rounded-full font-[300] text-[10dvw]"
-          onClick={goNext}
+          onClick={handleButtonClick("next")}
+          onTouchStart={(e) => e.preventDefault()}
         >
           &gt;
         </button>
 
         <div
           ref={sliderRef}
-          className="flex justify-center items-center h-20 select-none touch-pan-x"
+          className="flex justify-center items-center h-[20dvh] select-none touch-pan-x"
           style={{ transition: `transform ${ANIMATION_DURATION}ms ease` }}
           onTouchEnd={handleTouchEnd}
           onTouchMove={handleTouchMove}
@@ -87,11 +99,11 @@ export function NumberSlider({
         >
           {visibleNumbers.map((num, idx) => (
             <div
-              key={idx}
-              className={`flex-shrink-0 w-12 h-12 flex items-center justify-center mx-2 transition-all duration-300 font-[300] ${
+              key={`${num}-${idx}`}
+              className={`flex-shrink-0 h-12 flex items-center justify-center mx-2 transition-all duration-300 font-[300] ${
                 idx === 1
-                  ? "text-[12dvw] text-white mb-[3dvh]"
-                  : "text-[12dvw] text-gray-500"
+                  ? "text-[8dvw] text-white mb-[3dvh] mx-[5dvw]"
+                  : "text-[8dvw] text-gray-500"
               }`}
             >
               {num}
