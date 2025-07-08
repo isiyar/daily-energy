@@ -82,6 +82,7 @@ services:
   postgres:
     container_name: postgres
     image: postgres:17.5
+    command: ["postgres", "-c", "hba_file=/var/lib/postgresql/pg_hba.conf"]
     restart: unless-stopped
     env_file:
       - path: .env
@@ -97,6 +98,7 @@ services:
       - type: volume
         source: postgres-data
         target: /var/lib/postgresql/data
+      - ./pg_hba.conf:/var/lib/postgresql/pg_hba.conf
     networks:
       - network
     profiles:
