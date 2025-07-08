@@ -1,8 +1,8 @@
 package dto
 
 import (
+	"github.com/google/uuid"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
-	"github.com/isiyar/daily-energy/backend/pkg"
 )
 
 type UserWeightHistoryCreate struct {
@@ -13,7 +13,7 @@ type UserWeightHistoryCreate struct {
 
 func (uw *UserWeightHistoryCreate) ToUserWeightHistory(utgid int64) models.UserWeightHistory {
 	return models.UserWeightHistory{
-		Id:         utils.GenerateUUID().String(),
+		Id:         uuid.New().String(),
 		Utgid:      utgid,
 		Date:       uw.Date,
 		UserWeight: uw.Weight,

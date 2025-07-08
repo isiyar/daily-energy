@@ -6,7 +6,6 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
-	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"gorm.io/gorm"
 )
 
@@ -46,8 +45,6 @@ func (r *actionRepository) GetByStartTimeAndFinishTime(ctx context.Context, Star
 }
 
 func (r *actionRepository) Save(ctx context.Context, action *models.Action) error {
-	action.Id = utils.GenerateUUID().String()
-
 	actionAdapter := toAdapterAction(*action)
 	if err := r.db.WithContext(ctx).Save(&actionAdapter).Error; err != nil {
 		return err

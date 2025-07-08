@@ -32,7 +32,7 @@ func (h *ActionHandler) CreateAction(c *gin.Context) {
 		return
 	}
 
-	if _, err := h.userUC.Execute(c.Request.Context(), utgid); err != nil {
+	if _, err := h.userUC.Execute(c.Request.Context(), utgid); errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
@@ -50,11 +50,6 @@ func (h *ActionHandler) CreateAction(c *gin.Context) {
 	}
 
 	domainAction := req.ToAction(utgid)
-
-	if _, err := h.actionUC.Execute(c.Request.Context(), domainAction.Id); errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusConflict, gin.H{"error": "user already exists"})
-		return
-	}
 
 	if err := h.actionUC.Add(c.Request.Context(), &domainAction); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
