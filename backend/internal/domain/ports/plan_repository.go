@@ -6,7 +6,6 @@ import (
 )
 
 type PlanRepository interface {
-	GetByStartTimeAndFinishTime(ctx context.Context, StartAt, FinishAt int64) (models.Plan, error)
-	Save(ctx context.Context, user models.Plan) error
-	Delete(ctx context.Context, id string) error
+	GetByStartTimeAndFinishTime(ctx context.Context, startAt, finishAt, utgid int64) ([]models.Plan, error)
+	Save(ctx context.Context, plan []models.Plan) error
 }

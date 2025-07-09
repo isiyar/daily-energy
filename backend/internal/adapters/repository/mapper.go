@@ -11,7 +11,7 @@ func toDomainUser(u adapterModels.User) models.User {
 		Utgid:             u.Utgid,
 		Name:              u.Name,
 		Gender:            u.Gender,
-		DateofBirth: u.DateofBirth,
+		DateofBirth:       u.DateofBirth,
 		Weight:            u.Weight,
 		Height:            u.Height,
 		Goal:              u.Goal,
@@ -26,8 +26,8 @@ func toAdapterUser(u models.User) adapterModels.User {
 	return adapterModels.User{
 		Utgid:             u.Utgid,
 		Name:              u.Name,
-		Gender:    u.Gender,
-		DateofBirth:        u.DateofBirth,
+		Gender:            u.Gender,
+		DateofBirth:       u.DateofBirth,
 		Weight:            u.Weight,
 		Height:            u.Height,
 		Goal:              u.Goal,
@@ -99,6 +99,7 @@ func toDomainPlans(plans []adapterModels.Plan) []models.Plan {
 			CaloriesToConsume: p.CaloriesToConsume,
 			CaloriesToBurn:    p.CaloriesToBurn,
 			Recommendation:    p.Recommendation,
+			Type:              p.Type,
 		}
 	}
 	return res
@@ -121,6 +122,7 @@ func toAdapterPlans(plans []models.Plan) []adapterModels.Plan {
 			CaloriesToConsume: p.CaloriesToConsume,
 			CaloriesToBurn:    p.CaloriesToBurn,
 			Recommendation:    p.Recommendation,
+			Type:              p.Type,
 		}
 	}
 	return res

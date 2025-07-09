@@ -36,7 +36,7 @@ func main() {
 	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
 	planUC := usecase.NewPlanUseCase(repository.NewPlanRepository(db))
-	planHandler := handler.NewPlanHandler(planUC, userUC)
+	planHandler := handler.NewPlanHandler(c, planUC, userUC)
 
 	aiHandler := handler.NewAiHandler(c)
 
