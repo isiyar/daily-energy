@@ -54,8 +54,6 @@ func (h *AiHandler) CalculationCalories(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
-	//c.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
-
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read response"})

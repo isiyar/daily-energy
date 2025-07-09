@@ -8,7 +8,7 @@ type User struct {
 	Utgid             int64                   `gorm:"column:utgid;primaryKey"`
 	Name              string                  `gorm:"column:name"`
 	Gender            models.Gender           `gorm:"column:gender"`
-	DateofBirth int64             `gorm:"column:date"`
+	DateofBirth       int64                   `gorm:"column:date"`
 	Weight            int                     `gorm:"column:weight"`
 	Height            int                     `gorm:"column:height"`
 	Goal              models.Goal             `gorm:"column:goal"`

@@ -48,7 +48,7 @@ func validateInitData(params url.Values, botToken string) bool {
 
 	var dataCheck strings.Builder
 	keys := make([]string, 0, len(params)-1)
-	
+
 	for k := range params {
 		if k != "hash" {
 			keys = append(keys, k)

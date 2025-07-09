@@ -39,8 +39,9 @@ func main() {
 	planHandler := handler.NewPlanHandler(c, planUC, userUC)
 
 	aiHandler := handler.NewAiHandler(c)
+	chatHandler := handler.NewChatHandler(c)
 
-	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, planHandler, aiHandler)
+	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, planHandler, aiHandler, chatHandler)
 
 	r := gin.Default()
 	r.Use(cors.Default())
