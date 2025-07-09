@@ -74,4 +74,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/daily-energy-frontend:latest
             cd /root/code/daily-energy
             git pull origin main
-            docker-compose --profile prod up -d --force-recreate
+            docker compose --profile prod up -d --force-recreate
