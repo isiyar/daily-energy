@@ -1,17 +1,37 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 import { Register } from "./pages/Register";
 
+import { Greet } from "@/pages/Greet.tsx";
+import { useUser } from "@/hooks/user.ts";
+
 function App() {
-	return (
-		<Routes>
-			<Route element={<Register />} path="/" />
-			{/*<Route element={<DocsPage />} path="/docs" />
-      <Route element={<PricingPage />} path="/pricing" />
-      <Route element={<BlogPage />} path="/blog" />
-      <Route element={<AboutPage />} path="/about" /> */}
-		</Routes>
-	);
+  const navigate = useNavigate();
+  const { data, error } = useUser(
+    window.Telegram.WebApp.initDataUnsafe.user.id,
+  );
+
+  useEffect(() => {
+    if (data) {
+      navigate("/");
+    } else if (
+      error &&
+      axios.isAxiosError(error) &&
+      error.response?.status === 404
+    ) {
+      navigate("/greet");
+    }
+  }, [data, error]);
+
+  return (
+    <Routes>
+      <Route element={<Greet />} path="/greet" />
+      <Route element={<Register />} path="/register" />
+      <Route element={<h1>Hello World</h1>} path="/" />
+    </Routes>
+  );
 }
 
 export default App;
