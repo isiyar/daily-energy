@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/isiyar/daily-energy/backend/internal/adapters/adapterModels"
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/domain/ports"
 	"gorm.io/gorm"
@@ -16,8 +17,17 @@ func NewPlanRepository(db *gorm.DB) ports.PlanRepository {
 }
 
 func (r *planRepository) GetByStartTimeAndFinishTime(ctx context.Context, startAt, finishAt, utgid int64) ([]models.Plan, error) {
-	//TODO implement me
-	panic("implement me")
+	var adapterPlans []adapterModels.Plan
+
+	err := r.db.WithContext(ctx).
+		Where("utgid = ? AND date BETWEEN ? AND ?", utgid, startAt, finishAt).
+		Find(&adapterPlans).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return toDomainPlans(adapterPlans), nil
 }
 
 func (r *planRepository) Save(ctx context.Context, plans []models.Plan) error {

@@ -10,6 +10,7 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/ai"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
+	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"io"
 	"net/http"
@@ -154,10 +155,40 @@ func (h *PlanHandler) CreatePlan(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, dto.ToPlansResponse(plans))
-
-	//c.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
 }
 
 func (h *PlanHandler) GetPlans(c *gin.Context) {
+	startInt, finishInt, err := utils.ParseStartFinish(c)
 
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	if startInt > finishInt {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "start must be less end"})
+		return
+	}
+
+	utgidStr := c.Param("utgid")
+
+	utgid, err := strconv.ParseInt(utgidStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid"})
+		return
+	}
+
+	_, err = h.userUC.Execute(c.Request.Context(), utgid)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	plans, err := h.planUC.GetByStartTimeAndFinishTime(c.Request.Context(), startInt, finishInt, utgid)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ToPlansResponse(plans))
 }
