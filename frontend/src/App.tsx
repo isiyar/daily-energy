@@ -6,6 +6,7 @@ import { Register } from "./pages/Register";
 
 import { Greet } from "@/pages/Greet.tsx";
 import { useUser } from "@/hooks/user.ts";
+import { Plan } from "@/layouts/Plan.tsx";
 
 function App() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function App() {
     <Routes>
       <Route element={<Greet />} path="/greet" />
       <Route element={<Register />} path="/register" />
-      <Route element={<h1>Hello World</h1>} path="/" />
+      <Route element={<Plan date={new Date()} />} path="/" />
     </Routes>
   );
 }
