@@ -6,8 +6,10 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
+	"github.com/isiyar/daily-energy/backend/pkg/utils"
 	"gorm.io/gorm"
 	"log"
+	"strconv"
 	"net/http"
 )
 
@@ -188,13 +190,13 @@ func (h *ActionHandler) GetActions(c *gin.Context) {
 	start := c.Query("start_at")
 	finish := c.Query("finish_at")
 
-	startInt, err := strconv.ParseInt(start, 10, 64)
+	startInt, err = strconv.ParseInt(start, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid start"})
 		return
 	}
 
-	finishInt, err := strconv.ParseInt(finish, 10, 64)
+	finishInt, err = strconv.ParseInt(finish, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid end"})
 		return
@@ -212,4 +214,5 @@ func (h *ActionHandler) GetActions(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.ToActionsResponse(actions))
+}
 }

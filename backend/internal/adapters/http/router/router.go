@@ -29,7 +29,7 @@ func RegisterRoutes(r gin.IRouter, h *handler.Handler, c config.Config) {
 		}
 	}
   
-  actions := r.Group("/actions", handler.TelegramAuthMiddleware(c.TelegramBotToken))
+  	actions := r.Group("/actions", handler.TelegramAuthMiddleware(c.TelegramBotToken))
 	{
 		actions.GET("/:id", h.Action.GetAction)
 	}
