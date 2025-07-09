@@ -253,7 +253,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
 
-  /api/users/{utgid}/plans/:
+  /api/users/{utgid}/plans:
     get:
       summary: Получить список планов
       tags: [ plans ]
@@ -326,7 +326,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlanResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanResponse'
         '400':
           description: invalid request
           content:
@@ -645,6 +647,9 @@ components:
           type: integer
         recommendation:
           type: string
+        type:
+          type: string
+          enum: [ Food, Activity ]
 
     PlanRequest:
       type: object

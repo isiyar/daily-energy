@@ -8,6 +8,7 @@ const (
 	Male           Gender           = "Male"
 	Female         Gender           = "Female"
 	LoseWeight     Goal             = "LoseWeight"
+	Maintain       Goal             = "Maintain"
 	GainMuscleMass Goal             = "GainMuscleMass"
 	Low            PhysicalActivity = "Low"
 	Medium         PhysicalActivity = "Medium"

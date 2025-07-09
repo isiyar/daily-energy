@@ -9,7 +9,6 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 type ActionHandler struct {
@@ -168,6 +167,16 @@ func (h *ActionHandler) GetActions(c *gin.Context) {
 	if utgidInt != utgidCtxInt {
 		log.Printf("Utgid mismatch: URL=%d, Context=%d", utgidInt, utgidCtxInt)
 		c.JSON(http.StatusForbidden, gin.H{"error": "utgid mismatch"})
+
+	startInt, finishInt, err := utils.ParseStartFinish(c)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	if startInt > finishInt {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "start must be less end"})
 		return
 	}
 

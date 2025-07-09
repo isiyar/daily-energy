@@ -7,4 +7,5 @@ type Plan struct {
 	CaloriesToConsume int
 	CaloriesToBurn    int
 	Recommendation    string
+	Type              ActionType
 }
