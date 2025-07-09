@@ -46,6 +46,6 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 	apiGroup := r.Group("/api")
-	router.RegisterRoutes(apiGroup, h)
+	router.RegisterRoutes(apiGroup, h, c)
 	r.Run()
 }
