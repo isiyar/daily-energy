@@ -99,6 +99,7 @@ func toDomainPlans(plans []adapterModels.Plan) []models.Plan {
 			CaloriesToConsume: p.CaloriesToConsume,
 			CaloriesToBurn:    p.CaloriesToBurn,
 			Recommendation:    p.Recommendation,
+			Type:              p.Type,
 		}
 	}
 	return res
@@ -121,6 +122,7 @@ func toAdapterPlans(plans []models.Plan) []adapterModels.Plan {
 			CaloriesToConsume: p.CaloriesToConsume,
 			CaloriesToBurn:    p.CaloriesToBurn,
 			Recommendation:    p.Recommendation,
+			Type:              p.Type,
 		}
 	}
 	return res

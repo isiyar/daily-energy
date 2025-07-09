@@ -9,7 +9,6 @@ import (
 	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
 	"net/http"
-	"strconv"
 )
 
 type ActionHandler struct {
@@ -72,23 +71,16 @@ func (h *ActionHandler) GetAction(c *gin.Context) {
 }
 
 func (h *ActionHandler) GetActions(c *gin.Context) {
-	start := c.Query("start_at")
-	finish := c.Query("finish_at")
+	startInt, finishInt, err := utils.ParseStartFinish(c)
 
-	startInt, err := strconv.ParseInt(start, 10, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid start"})
-		return
-	}
-
-	finishInt, err := strconv.ParseInt(finish, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid end"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 
 	if startInt > finishInt {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "start must be less end"})
+		return
 	}
 
 	utgid, err := utils.ParseUtgid(c)

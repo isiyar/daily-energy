@@ -30,11 +30,11 @@ func (r *actionRepository) GetById(ctx context.Context, id string) (models.Actio
 	return toDomainAction(a), nil
 }
 
-func (r *actionRepository) GetByStartTimeAndFinishTime(ctx context.Context, StartAt, FinishAt, utgid int64) ([]models.Action, error) {
+func (r *actionRepository) GetByStartTimeAndFinishTime(ctx context.Context, startAt, finishAt, utgid int64) ([]models.Action, error) {
 	var adapterActions []adapterModels.Action
 
 	err := r.db.WithContext(ctx).
-		Where("utgid = ? AND date BETWEEN ? AND ?", utgid, StartAt, FinishAt).
+		Where("utgid = ? AND date BETWEEN ? AND ?", utgid, startAt, finishAt).
 		Find(&adapterActions).Error
 
 	if err != nil {
