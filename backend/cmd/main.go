@@ -60,11 +60,10 @@ func main() {
 	r := gin.Default()
 	
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru"},
+		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru", "https://75e8b2927dfa.ngrok-free.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "initData"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "initdata"},
 		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
 	}))
 	
 	apiGroup := r.Group("/api")
