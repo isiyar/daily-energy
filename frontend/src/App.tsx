@@ -6,12 +6,13 @@ import { Register } from "./pages/Register";
 
 import { Greet } from "@/pages/Greet.tsx";
 import { useUser } from "@/hooks/user.ts";
-import { Plan } from "@/layouts/Plan.tsx";
+import { Main } from "@/pages/Main.tsx";
 
 function App() {
   const navigate = useNavigate();
   const { data, error } = useUser(
     window.Telegram.WebApp.initDataUnsafe.user.id,
+    window.Telegram.WebApp.initData,
   );
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function App() {
     } else if (
       error &&
       axios.isAxiosError(error) &&
-      error.response?.status === 404
+      error.response?.status !== 200
     ) {
       navigate("/greet");
     }
@@ -30,7 +31,7 @@ function App() {
     <Routes>
       <Route element={<Greet />} path="/greet" />
       <Route element={<Register />} path="/register" />
-      <Route element={<Plan date={new Date()} />} path="/" />
+      <Route element={<Main />} path="/" />
     </Routes>
   );
 }

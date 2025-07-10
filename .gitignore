@@ -27,6 +27,7 @@ go.work.sum
 # env file
 .env
 
+data/certbot/conf/
 # Editor/IDE
  .idea/
  .vscode/
