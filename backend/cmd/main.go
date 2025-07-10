@@ -44,7 +44,15 @@ func main() {
 	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, planHandler, aiHandler, chatHandler)
 
 	r := gin.Default()
-	r.Use(cors.Default())
+	
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "initData"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+	
 	apiGroup := r.Group("/api")
 	router.RegisterRoutes(apiGroup, h, c)
 	r.Run()
