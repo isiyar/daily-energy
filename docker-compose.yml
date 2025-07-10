@@ -40,7 +40,7 @@ services:
 
   backend-prod:
     container_name: backend-prod
-    image: ${DOCKER_USERNAME}/daily-energy/backend:${TAG:-latest}
+    image: ${DOCKER_USERNAME}/daily-energy-backend:${TAG:-latest}
     restart: unless-stopped
     env_file:
       - path: .env
@@ -123,7 +123,7 @@ services:
   
   frontend-prod:
     container_name: frontend-prod
-    image: ${DOCKER_USERNAME}/daily-energy/frontend:${TAG:-latest}
+    image: ${DOCKER_USERNAME}/daily-energy-frontend:${TAG:-latest}
     restart: unless-stopped
     env_file:
       - path: .env

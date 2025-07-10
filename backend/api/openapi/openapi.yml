@@ -20,6 +20,8 @@ tags:
     description: Операции с действиями пользователей
   - name: weight-history
     description: История изменения веса пользователей
+  - name: ai
+    description: Взаимодействие с ИИ
 
 paths:
   /api/users:
@@ -39,6 +41,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: user already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 
   /api/users/{utgid}:
     get:
@@ -58,6 +79,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     put:
       summary: Обновить данные пользователя
       tags: [ users ]
@@ -77,6 +116,28 @@ paths:
       responses:
         '200':
           description: Пользователь обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     delete:
       summary: Удалить пользователя
       tags: [ users ]
@@ -90,6 +151,25 @@ paths:
       responses:
         '204':
           description: Пользователь удален
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 
   /api/users/{utgid}/weight-history:
     get:
@@ -111,6 +191,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserWeightHistoryResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
     post:
       summary: Добавить запись веса пользователя
       tags: [ weight-history ]
@@ -130,8 +229,31 @@ paths:
       responses:
         '201':
           description: Запись добавлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWeightHistoryResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
-  /api/users/{utgid}/plans/:
+
+  /api/users/{utgid}/plans:
     get:
       summary: Получить список планов
       tags: [ plans ]
@@ -163,6 +285,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PlanResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
     post:
       summary: Создать новый план
       tags: [ plans ]
@@ -182,6 +323,30 @@ paths:
       responses:
         '201':
           description: План создан
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/users/{utgid}/actions:
     get:
@@ -215,6 +380,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ActionResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       parameters:
         - name: utgid
@@ -234,6 +417,28 @@ paths:
       responses:
         '201':
           description: Действие создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/actions/{id}:
     get:
@@ -244,8 +449,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Успешный ответ
@@ -253,6 +458,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActionResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: action not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+
+  /api/ai/calories:
+    post:
+      summary: Рассчитать калорийность блюда
+      tags: [ ai ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaloriesRequest'
+      responses:
+        '200':
+          description: Калории рассчитаны
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaloriesResponse'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -265,13 +520,16 @@ components:
         gender:
           type: string
           enum: [ Male, Female ]
+        date_of_birth:
+          type: integer
+          format: int64
         weight:
           type: integer
         height:
           type: integer
         goal:
           type: string
-          enum: [ LoseWeight, GainMuscleMass ]
+          enum: [ LoseWeight, Maintain, GainMuscleMass ]
         physical_activity:
           type: string
           enum: [ Low, Medium, High ]
@@ -283,9 +541,10 @@ components:
       required:
         - utgid
         - gender
-        - goal
+        - date_of_birth
         - weight
         - height
+        - goal
         - physical_activity
         - name
       properties:
@@ -295,13 +554,16 @@ components:
         gender:
           type: string
           enum: [ Male, Female ]
+        date_of_birth:
+          type: integer
+          format: int64
         weight:
           type: integer
         height:
           type: integer
         goal:
           type: string
-          enum: [ LoseWeight, GainMuscleMass ]
+          enum: [ LoseWeight, Maintain, GainMuscleMass ]
         physical_activity:
           type: string
           enum: [ Low, Medium, High ]
@@ -311,17 +573,27 @@ components:
     UserRequest:
       type: object
       required:
+        - name
         - gender
+        - date_of_birth
+        - weight
+        - height
         - goal
         - physical_activity
-        - name
       properties:
+        weight:
+          type: integer
+        height:
+          type: integer
         gender:
           type: string
           enum: [ Male, Female ]
+        date_of_birth:
+          type: integer
+          format: int64
         goal:
           type: string
-          enum: [ LoseWeight, GainMuscleMass ]
+          enum: [ LoseWeight, Maintain, GainMuscleMass ]
         physical_activity:
           type: string
           enum: [ Low, Medium, High ]
@@ -375,6 +647,9 @@ components:
           type: integer
         recommendation:
           type: string
+        type:
+          type: string
+          enum: [ Food, Activity ]
 
     PlanRequest:
       type: object
@@ -423,3 +698,29 @@ components:
         type:
           type: string
           enum: [ Food, Activity ]
+
+    CaloriesRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+
+    CaloriesResponse:
+      type: object
+      required:
+        - calories
+      properties:
+        calories:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+        details:
+          type: string
