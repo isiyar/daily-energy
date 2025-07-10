@@ -6,6 +6,7 @@ type UserCreate struct {
 	Utgid            int64                   `json:"utgid" validate:"required,min=1"`
 	Name             string                  `json:"name" validate:"required,min=1,max=50"`
 	Gender           models.Gender           `json:"gender"`
+	DateofBirth      int64                   `json:"date_of_birth" validate:"required"`
 	Weight           int                     `json:"weight" validate:"required,min=10,max=300"`
 	Height           int                     `json:"height" validate:"required,min=10,max=300"`
 	Goal             models.Goal             `json:"goal"`
@@ -17,6 +18,7 @@ func (u *UserCreate) ToUser() models.User {
 		Utgid:            u.Utgid,
 		Name:             u.Name,
 		Gender:           u.Gender,
+		DateofBirth:      u.DateofBirth,
 		Weight:           u.Weight,
 		Height:           u.Height,
 		Goal:             u.Goal,
