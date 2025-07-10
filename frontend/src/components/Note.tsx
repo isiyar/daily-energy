@@ -5,5 +5,11 @@ interface NoteProps {
 }
 
 export function Note({ date, description, value }: NoteProps) {
-  return <article />;
+  return (
+    <article>
+      <div>{date.toLocaleDateString()}</div>
+      <div>{description}</div>
+      <div>{value}</div>
+    </article>
+  );
 }
