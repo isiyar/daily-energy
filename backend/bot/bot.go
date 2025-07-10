@@ -10,12 +10,10 @@ import (
 	"time"
 )
 
-const apiURL = "https://api.telegram.org/bot"
-
 var offset int
 
 func getUpdates(c *config.Config) ([]Update, error) {
-	resp, err := http.Get(fmt.Sprintf("%s/getUpdates?timeout=10&offset=%d", apiURL+c.TelegramBotToken, offset))
+	resp, err := http.Get(fmt.Sprintf("%s/getUpdates?timeout=10&offset=%d", c.TelegramApiUrl, offset))
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +37,7 @@ func sendMessage(chatID int64, text string, c *config.Config) error {
 		"parse_mode": "HTML",
 	}
 	data, _ := json.Marshal(payload)
-	_, err := http.Post(fmt.Sprintf("%s/sendMessage", apiURL+c.TelegramBotToken), "application/json", bytes.NewReader(data))
+	_, err := http.Post(fmt.Sprintf("%s/sendMessage", c.TelegramApiUrl), "application/json", bytes.NewReader(data))
 	return err
 }
 
