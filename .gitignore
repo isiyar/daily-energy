@@ -28,12 +28,5 @@ go.work.sum
 .env
 
 # Editor/IDE
-<<<<<<< Updated upstream
-# .idea/
-# .vscode/
-
-data/certbot/conf/
-=======
  .idea/
  .vscode/
->>>>>>> Stashed changes

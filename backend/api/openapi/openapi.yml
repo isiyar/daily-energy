@@ -529,7 +529,7 @@ components:
           type: integer
         goal:
           type: string
-          enum: [ LoseWeight, GainMuscleMass ]
+          enum: [ LoseWeight, Maintain, GainMuscleMass ]
         physical_activity:
           type: string
           enum: [ Low, Medium, High ]
@@ -563,7 +563,7 @@ components:
           type: integer
         goal:
           type: string
-          enum: [ LoseWeight, GainMuscleMass ]
+          enum: [ LoseWeight, Maintain, GainMuscleMass ]
         physical_activity:
           type: string
           enum: [ Low, Medium, High ]
@@ -593,7 +593,7 @@ components:
           format: int64
         goal:
           type: string
-          enum: [ LoseWeight, GainMuscleMass ]
+          enum: [ LoseWeight, Maintain, GainMuscleMass ]
         physical_activity:
           type: string
           enum: [ Low, Medium, High ]
