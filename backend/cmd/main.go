@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/isiyar/daily-energy/backend/bot"
 	"github.com/isiyar/daily-energy/backend/config"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/db"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/http/router"
@@ -18,6 +19,8 @@ func main() {
 		log.Panicf("Failed to load config: %v", err)
 	}
 
+	go bot.RunBot(&c)
+
 	if !c.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -27,7 +30,6 @@ func main() {
 		log.Panicf("Failed to initialize database: %v", err)
 	}
 
-	// Инициализация зависимостей
 	userRepo := repository.NewUserRepository(dbConn)
 	userUC := usecase.NewUserUseCase(userRepo)
 	userHandler := handler.NewUserHandler(userUC)
@@ -56,19 +58,18 @@ func main() {
 		chatHandler,
 	)
 
-	// Настройка HTTP сервера
 	r := gin.Default()
-	
+
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru", "https://2ec3ca0382f7.ngrok-free.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "initdata"},
 		ExposeHeaders:    []string{"Content-Length"},
 	}))
-	
+
 	apiGroup := r.Group("/api")
 	router.RegisterRoutes(apiGroup, h, c)
-	
+
 	if err := r.Run(); err != nil {
 		log.Panicf("Failed to start server: %v", err)
 	}
