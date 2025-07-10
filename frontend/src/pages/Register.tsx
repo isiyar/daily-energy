@@ -41,8 +41,7 @@ export function Register() {
   }
 
   function sendUserData() {
-    console.log(userData);
-    mutate(userData);
+    mutate({ user: userData, initData: window.Telegram.WebApp.initData });
   }
 
   return (

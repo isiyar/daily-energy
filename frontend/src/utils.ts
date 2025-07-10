@@ -4,3 +4,11 @@ export function formatDate(date: Date): string {
 
   return `${day}.${month}`;
 }
+
+export function nowDate(): string[] {
+  const date: Date = new Date(Date.now());
+  const day = date.getDate();
+  const month = date.toLocaleString("en-US", { month: "short" });
+
+  return [day.toString(), month];
+}
