@@ -44,6 +44,20 @@ func (r *actionRepository) GetByStartTimeAndFinishTime(ctx context.Context, star
 	return toDomainActions(adapterActions), nil
 }
 
+func (r *actionRepository) GetByStartTimeAndFinishTimeAndType(ctx context.Context, startAt, finishAt, utgid int64, actionType string) ([]models.Action, error) {
+	var adapterActions []adapterModels.Action
+
+	err := r.db.WithContext(ctx).
+		Where("utgid = ? AND type = ? AND date BETWEEN ? AND ?", utgid, actionType, startAt, finishAt).
+		Find(&adapterActions).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return toDomainActions(adapterActions), nil
+}
+
 func (r *actionRepository) Save(ctx context.Context, action *models.Action) error {
 	actionAdapter := toAdapterAction(*action)
 	if err := r.db.WithContext(ctx).Save(&actionAdapter).Error; err != nil {

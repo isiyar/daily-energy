@@ -18,6 +18,13 @@ func (uc *PlanUseCase) GetByStartTimeAndFinishTime(ctx context.Context, StartAt,
 	return uc.repo.GetByStartTimeAndFinishTime(ctx, StartAt, FinishAt, utgid)
 }
 
+func (uc *PlanUseCase) GetByStartTimeAndFinishTimeAndType(ctx context.Context, StartAt, FinishAt int64, utgid int64, planType string) ([]models.Plan, error) {
+	if planType == "" {
+		return uc.GetByStartTimeAndFinishTime(ctx, StartAt, FinishAt, utgid)
+	}
+	return uc.repo.GetByStartTimeAndFinishTimeAndType(ctx, StartAt, FinishAt, utgid, planType)
+}
+
 func (uc *PlanUseCase) Add(ctx context.Context, plans []models.Plan) error {
 	return uc.repo.Save(ctx, plans)
 }

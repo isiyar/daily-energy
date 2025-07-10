@@ -30,6 +30,20 @@ func (r *planRepository) GetByStartTimeAndFinishTime(ctx context.Context, startA
 	return toDomainPlans(adapterPlans), nil
 }
 
+func (r *planRepository) GetByStartTimeAndFinishTimeAndType(ctx context.Context, startAt, finishAt, utgid int64, planType string) ([]models.Plan, error) {
+	var adapterPlans []adapterModels.Plan
+
+	err := r.db.WithContext(ctx).
+		Where("utgid = ? AND type = ? AND date BETWEEN ? AND ?", utgid, planType, startAt, finishAt).
+		Find(&adapterPlans).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return toDomainPlans(adapterPlans), nil
+}
+
 func (r *planRepository) Save(ctx context.Context, plans []models.Plan) error {
 	plansAdapter := toAdapterPlans(plans)
 	if err := r.db.WithContext(ctx).Save(&plansAdapter).Error; err != nil {

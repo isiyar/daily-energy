@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/isiyar/daily-energy/backend/config"
@@ -9,10 +10,9 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/domain/models"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/ai"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
-	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"github.com/isiyar/daily-energy/backend/pkg/utils"
+	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"io"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -34,7 +34,6 @@ func NewPlanHandler(cnfg config.Config, planUC *usecase.PlanUseCase, userUC *use
 }
 
 func (h *PlanHandler) CreatePlan(c *gin.Context) {
-	// Extract utgid from URL
 	utgidParam := c.Param("utgid")
 	if utgidParam == "" {
 		log.Println("Missing utgid in URL")
@@ -49,7 +48,6 @@ func (h *PlanHandler) CreatePlan(c *gin.Context) {
 		return
 	}
 
-	// Extract utgid from context (set by TelegramAuthMiddleware)
 	utgidCtx, ok := c.Get("utgid")
 	if !ok {
 		log.Println("Missing utgid in context")
@@ -71,14 +69,12 @@ func (h *PlanHandler) CreatePlan(c *gin.Context) {
 		return
 	}
 
-	// Compare utgid from URL and context
 	if utgidInt != utgidCtxInt {
 		log.Printf("Utgid mismatch: URL=%d, Context=%d", utgidInt, utgidCtxInt)
 		c.JSON(http.StatusForbidden, gin.H{"error": "utgid mismatch"})
 		return
 	}
 
-	// Check if user exists
 	user, err := h.userUC.Execute(c.Request.Context(), utgidInt)
 	if err != nil {
 		log.Printf("User not found for utgid=%d: %v", utgidInt, err)
@@ -203,7 +199,6 @@ func (h *PlanHandler) CreatePlan(c *gin.Context) {
 }
 
 func (h *PlanHandler) GetPlans(c *gin.Context) {
-	// Extract utgid from URL
 	utgidParam := c.Param("utgid")
 	if utgidParam == "" {
 		log.Println("Missing utgid in URL")
@@ -218,7 +213,6 @@ func (h *PlanHandler) GetPlans(c *gin.Context) {
 		return
 	}
 
-	// Extract utgid from context (set by TelegramAuthMiddleware)
 	utgidCtx, ok := c.Get("utgid")
 	if !ok {
 		log.Println("Missing utgid in context")
@@ -240,14 +234,12 @@ func (h *PlanHandler) GetPlans(c *gin.Context) {
 		return
 	}
 
-	// Compare utgid from URL and context
 	if utgidInt != utgidCtxInt {
 		log.Printf("Utgid mismatch: URL=%d, Context=%d", utgidInt, utgidCtxInt)
 		c.JSON(http.StatusForbidden, gin.H{"error": "utgid mismatch"})
 		return
 	}
 
-	// Check if user exists
 	_, err = h.userUC.Execute(c.Request.Context(), utgidInt)
 	if err != nil {
 		log.Printf("User not found for utgid=%d: %v", utgidInt, err)
@@ -255,7 +247,6 @@ func (h *PlanHandler) GetPlans(c *gin.Context) {
 		return
 	}
 
-	// Parse query parameters
 	startInt, finishInt, err := utils.ParseStartFinish(c)
 	if err != nil {
 		log.Printf("Invalid start or finish time: %v", err)
@@ -269,7 +260,9 @@ func (h *PlanHandler) GetPlans(c *gin.Context) {
 		return
 	}
 
-	plans, err := h.planUC.GetByStartTimeAndFinishTime(c.Request.Context(), startInt, finishInt, utgidInt)
+	t := c.Query("type")
+
+	plans, err := h.planUC.GetByStartTimeAndFinishTimeAndType(c.Request.Context(), startInt, finishInt, utgidInt, t)
 	if err != nil {
 		log.Printf("Failed to get plans for utgid=%d: %v", utgidInt, err)
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
