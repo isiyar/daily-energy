@@ -61,7 +61,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru", "https://2ec3ca0382f7.ngrok-free.app"},
+		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru", "https://342a6b1ace7e.ngrok-free.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "initdata"},
 		ExposeHeaders:    []string{"Content-Length"},
