@@ -3,46 +3,64 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/isiyar/daily-energy/backend/bot"
 	"github.com/isiyar/daily-energy/backend/config"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/db"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/http/router"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/repository"
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/handler"
+	"log"
 )
 
 func main() {
 	c, err := config.LoadConfig()
 	if err != nil {
-		panic(err)
+		log.Panicf("Failed to load config: %v", err)
 	}
 
 	if !c.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	db, err := db.InitDatabase(c)
+	dbConn, err := db.InitDatabase(c)
 	if err != nil {
-		panic(err)
+		log.Panicf("Failed to initialize database: %v", err)
 	}
 
-	userUC := usecase.NewUserUseCase(repository.NewUserRepository(db))
+	// Инициализация зависимостей
+	userRepo := repository.NewUserRepository(dbConn)
+	userUC := usecase.NewUserUseCase(userRepo)
 	userHandler := handler.NewUserHandler(userUC)
 
-	UserWeightHistoryUC := usecase.NewUserWeightHistoryUseCase(repository.NewUserWeightHistoryRepository(db))
-	userWeightHistoryHandler := handler.NewUserWeightHistoryHandler(userUC, UserWeightHistoryUC)
+	weightHistoryRepo := repository.NewUserWeightHistoryRepository(dbConn)
+	weightHistoryUC := usecase.NewUserWeightHistoryUseCase(weightHistoryRepo)
+	weightHistoryHandler := handler.NewUserWeightHistoryHandler(userUC, weightHistoryUC)
 
-	actionUC := usecase.NewActionUseCase(repository.NewActionRepository(db))
+	actionRepo := repository.NewActionRepository(dbConn)
+	actionUC := usecase.NewActionUseCase(actionRepo)
 	actionHandler := handler.NewActionHandler(actionUC, userUC)
 
-	planUC := usecase.NewPlanUseCase(repository.NewPlanRepository(db))
+	planRepo := repository.NewPlanRepository(dbConn)
+	planUC := usecase.NewPlanUseCase(planRepo)
 	planHandler := handler.NewPlanHandler(c, planUC, userUC)
 
 	aiHandler := handler.NewAiHandler(c)
 	chatHandler := handler.NewChatHandler(c)
 
-	h := handler.NewHandler(actionHandler, userHandler, userWeightHistoryHandler, planHandler, aiHandler, chatHandler)
+	h := handler.NewHandler(
+		actionHandler,
+		userHandler,
+		weightHistoryHandler,
+		planHandler,
+		aiHandler,
+		chatHandler,
+	)
 
+	// Запуск бота в отдельной горутине
+	go bot.StartBot(c)
+
+	// Настройка HTTP сервера
 	r := gin.Default()
 	
 	r.Use(cors.New(cors.Config{
@@ -55,5 +73,8 @@ func main() {
 	
 	apiGroup := r.Group("/api")
 	router.RegisterRoutes(apiGroup, h, c)
-	r.Run()
+	
+	if err := r.Run(); err != nil {
+		log.Panicf("Failed to start server: %v", err)
+	}
 }

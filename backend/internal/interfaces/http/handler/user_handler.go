@@ -72,19 +72,6 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 }
 
 func (h *UserHandler) CreateUser(c *gin.Context) {
-	utgidParam := c.Param("utgid")
-	if utgidParam == "" {
-		log.Println("Missing utgid in URL")
-		c.JSON(http.StatusBadRequest, gin.H{"error": "missing utgid in URL"})
-		return
-	}
-
-	utgidInt, err := strconv.ParseInt(utgidParam, 10, 64)
-	if err != nil {
-		log.Printf("Invalid utgid format in URL: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid utgid in URL"})
-		return
-	}
 
 	utgidCtx, ok := c.Get("utgid")
 	if !ok {
@@ -107,12 +94,6 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	if utgidInt != utgidCtxInt {
-		log.Printf("Utgid mismatch: URL=%d, Context=%d", utgidInt, utgidCtxInt)
-		c.JSON(http.StatusForbidden, gin.H{"error": "utgid mismatch"})
-		return
-	}
-
 	var req dto.UserCreate
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "details": err.Error()})
@@ -125,7 +106,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	}
 
 	domainUser := req.ToUser()
-	domainUser.Utgid = utgidInt
+	domainUser.Utgid = utgidCtxInt
 
 	if _, err := h.userUC.Execute(c.Request.Context(), domainUser.Utgid); !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusConflict, gin.H{"error": "user already exists"})
