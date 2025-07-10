@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/isiyar/daily-energy/backend/bot"
 	"github.com/isiyar/daily-energy/backend/config"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/db"
 	"github.com/isiyar/daily-energy/backend/internal/adapters/http/router"
@@ -56,9 +55,6 @@ func main() {
 		aiHandler,
 		chatHandler,
 	)
-
-	// Запуск бота в отдельной горутине
-	go bot.StartBot(c)
 
 	// Настройка HTTP сервера
 	r := gin.Default()
