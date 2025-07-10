@@ -5,12 +5,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/dto"
-	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"github.com/isiyar/daily-energy/backend/pkg/utils"
+	"github.com/isiyar/daily-energy/backend/pkg/validator"
 	"gorm.io/gorm"
 	"log"
-	"strconv"
 	"net/http"
+	"strconv"
 )
 
 type ActionHandler struct {
@@ -93,6 +93,7 @@ func (h *ActionHandler) CreateAction(c *gin.Context) {
 }
 
 func (h *ActionHandler) GetAction(c *gin.Context) {
+
 	utgidCtx, ok := c.Get("utgid")
 	if !ok {
 		log.Println("Missing utgid in context")
@@ -169,6 +170,12 @@ func (h *ActionHandler) GetActions(c *gin.Context) {
 	if utgidInt != utgidCtxInt {
 		log.Printf("Utgid mismatch: URL=%d, Context=%d", utgidInt, utgidCtxInt)
 		c.JSON(http.StatusForbidden, gin.H{"error": "utgid mismatch"})
+	}
+
+	if _, err := h.userUC.Execute(c.Request.Context(), utgidInt); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+		return
+	}
 
 	startInt, finishInt, err := utils.ParseStartFinish(c)
 
@@ -182,37 +189,12 @@ func (h *ActionHandler) GetActions(c *gin.Context) {
 		return
 	}
 
-	if _, err := h.userUC.Execute(c.Request.Context(), utgidInt); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
-		return
-	}
+	t := c.Query("type")
 
-	start := c.Query("start_at")
-	finish := c.Query("finish_at")
-
-	startInt, err = strconv.ParseInt(start, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid start"})
-		return
-	}
-
-	finishInt, err = strconv.ParseInt(finish, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid end"})
-		return
-	}
-
-	if startInt > finishInt {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "start must be less than end"})
-		return
-	}
-
-	actions, err := h.actionUC.GetByStartTimeAndFinishTime(c.Request.Context(), startInt, finishInt, utgidInt)
+	actions, err := h.actionUC.GetByStartTimeAndFinishTimeAndType(c.Request.Context(), startInt, finishInt, utgidInt, t)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, dto.ToActionsResponse(actions))
-}
 }

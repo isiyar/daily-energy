@@ -276,6 +276,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [ Activity, Food ]
       responses:
         '200':
           description: Успешный ответ
@@ -371,6 +377,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [ Activity, Food ]
       responses:
         '200':
           description: Успешный ответ
