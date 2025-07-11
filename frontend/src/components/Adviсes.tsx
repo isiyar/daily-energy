@@ -6,7 +6,7 @@ export function Advices({ advices }: { advices: RecommendationType[] }) {
       <h2 className="font-[500]">Совет от ИИ-помощника:</h2>
       <ul className="overflow-y-auto max-h-[8dvh]">
         {advices.length > 0 &&
-          advices[0].recommendation.split("\\n").map((line, index) => (
+          advices[0].recommendation.split("\\n").map((line: string, index: number) => (
             <li key={index}>
               {line}
               <br />

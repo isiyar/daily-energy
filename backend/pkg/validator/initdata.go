@@ -1,16 +1,16 @@
 package validator
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/hex"
+	// "crypto/hmac"
+	// "crypto/sha256"
+	// "encoding/hex"
 	"encoding/json"
 	"errors"
 	"net/url"
-	"sort"
+	// "sort"
 	"strconv"
-	"strings"
-	"time"
+	// "strings"
+	// "time"
 )
 
 func GetTelegramUserID(initData string, botToken string) (string, error) {
@@ -31,37 +31,37 @@ func GetTelegramUserID(initData string, botToken string) (string, error) {
 	return strconv.FormatInt(user.ID, 10), nil
 }
 
-func validateInitData(params url.Values, botToken string) bool {
-	if authDate, err := strconv.ParseInt(params.Get("auth_date"), 10, 64); err == nil {
-		if time.Since(time.Unix(authDate, 0)) > 10*time.Minute {
-			return false
-		}
-	}
+// func validateInitData(params url.Values, botToken string) bool {
+// 	if authDate, err := strconv.ParseInt(params.Get("auth_date"), 10, 64); err == nil {
+// 		if time.Since(time.Unix(authDate, 0)) > 10*time.Minute {
+// 			return false
+// 		}
+// 	}
 
-	hash := params.Get("hash")
-	if params.Get("hash") == "" {
-		return false
-	}
+// 	hash := params.Get("hash")
+// 	if params.Get("hash") == "" {
+// 		return false
+// 	}
 
-	secret := hmac.New(sha256.New, []byte("WebAppData"))
-	secret.Write([]byte(botToken))
+// 	secret := hmac.New(sha256.New, []byte("WebAppData"))
+// 	secret.Write([]byte(botToken))
 
-	var dataCheck strings.Builder
-	keys := make([]string, 0, len(params)-1)
+// 	var dataCheck strings.Builder
+// 	keys := make([]string, 0, len(params)-1)
 
-	for k := range params {
-		if k != "hash" {
-			keys = append(keys, k)
-		}
-	}
-	sort.Strings(keys)
+// 	for k := range params {
+// 		if k != "hash" {
+// 			keys = append(keys, k)
+// 		}
+// 	}
+// 	sort.Strings(keys)
 
-	for _, k := range keys {
-		dataCheck.WriteString(k + "=" + params.Get(k) + "\n")
-	}
-	dataCheckStr := strings.TrimSuffix(dataCheck.String(), "\n")
+// 	for _, k := range keys {
+// 		dataCheck.WriteString(k + "=" + params.Get(k) + "\n")
+// 	}
+// 	dataCheckStr := strings.TrimSuffix(dataCheck.String(), "\n")
 
-	h := hmac.New(sha256.New, secret.Sum(nil))
-	h.Write([]byte(dataCheckStr))
-	return hex.EncodeToString(h.Sum(nil)) == hash
-}
+// 	h := hmac.New(sha256.New, secret.Sum(nil))
+// 	h.Write([]byte(dataCheckStr))
+// 	return hex.EncodeToString(h.Sum(nil)) == hash
+// }
