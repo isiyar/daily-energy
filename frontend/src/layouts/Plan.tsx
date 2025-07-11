@@ -56,19 +56,20 @@ export function Plan({ date, onChange }: PlanProops) {
       <div className="bg-[#272727] rounded-medium px-[3dvw] py-[5dvw]">
         <div className="flex justify-around items-center">
           {active === "Activity" ? <ActivityIcon /> : <FoodIcon />}
-          {recData === undefined && (
-            <SemiCircularProgressBar
-              circleColor="text-[#666666]"
-              curr={0}
-              end={0}
-              progressColor="text-[#D9D9D9]"
-              showText={true}
-              size={115}
-              strokeWidth={12}
-              textColor="text-white"
-            />
-          )}
-          {recData !== undefined && (
+          {recData === undefined ||
+            (recData.length === 0 && (
+              <SemiCircularProgressBar
+                circleColor="text-[#666666]"
+                curr={0}
+                end={0}
+                progressColor="text-[#D9D9D9]"
+                showText={true}
+                size={115}
+                strokeWidth={12}
+                textColor="text-white"
+              />
+            ))}
+          {recData !== undefined && recData.length > 0 && (
             <SemiCircularProgressBar
               circleColor="text-[#666666]"
               curr={
