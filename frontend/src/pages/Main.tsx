@@ -2,12 +2,11 @@ import { useState } from "react";
 
 import { Plan } from "@/layouts/Plan.tsx";
 import { Navbar } from "@/components/Navbar.tsx";
-import { User } from "@/api/user.ts";
 import { AddActivity } from "@/layouts/AddActivity.tsx";
 
 export type TabType = "TodayPlan" | "Chat" | "Profile" | "AddActivity";
 
-export function Main({ user }: { user: User }) {
+export function Main() {
   const [currTab, setCurrTab] = useState<TabType>("TodayPlan");
 
   return (
