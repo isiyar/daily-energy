@@ -1,23 +1,30 @@
+import { getPercentage } from "@/utils.ts";
+
 interface SemiCircularProgressBarProps {
-  progress: number;
   size?: number;
   strokeWidth?: number;
   circleColor?: string;
   progressColor?: string;
   showText?: boolean;
   textColor?: string;
+  curr: number;
+  end: number;
 }
 
 export function SemiCircularProgressBar({
-  progress = 0,
   size = 120,
   strokeWidth = 10,
   circleColor = "bg-gray-200",
   progressColor = "bg-blue-500",
   showText = true,
   textColor = "text-gray-700",
+  curr,
+  end,
 }: SemiCircularProgressBarProps) {
-  const normalizedProgress = Math.min(Math.max(progress, 0), 100);
+  const normalizedProgress = Math.min(
+    Math.max(getPercentage(curr, end), 0),
+    100,
+  );
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * Math.PI;
   const strokeDashoffset =
@@ -67,11 +74,11 @@ export function SemiCircularProgressBar({
 
       {showText && (
         <div
-          className={`absolute text-[3dvw] bottom-0 text-center ${textColor}`}
+          className={`absolute text-[2dvw] bottom-0 text-center ${textColor}`}
         >
-          {normalizedProgress} kcal
+          {curr} ккал
           <br />
-          remaining
+          из {end}
         </div>
       )}
     </div>

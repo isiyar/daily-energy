@@ -31,7 +31,7 @@ function App() {
     <Routes>
       <Route element={<Greet />} path="/greet" />
       <Route element={<Register />} path="/register" />
-      <Route element={<Main />} path="/" />
+      <Route element={<Main user={data!!} />} path="/" />
     </Routes>
   );
 }

@@ -1,15 +1,12 @@
-interface NoteProps {
-  date: Date;
-  description: string;
-  value: number;
-}
+import { ActionType } from "@/api/actions.ts";
+import { formatTime } from "@/utils.ts";
 
-export function Note({ date, description, value }: NoteProps) {
+export function Action({ action }: { action: ActionType }) {
   return (
-    <article>
-      <div>{date.toLocaleDateString()}</div>
-      <div>{description}</div>
-      <div>{value}</div>
+    <article className="flex justify-between items-center px-[2dvw]">
+      <div>{formatTime(new Date(action.date))}</div>
+      <div>{action.activity_name}</div>
+      <div>{action.calories} ккал</div>
     </article>
   );
 }

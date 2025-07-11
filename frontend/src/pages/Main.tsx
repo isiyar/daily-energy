@@ -2,18 +2,23 @@ import { useState } from "react";
 
 import { Plan } from "@/layouts/Plan.tsx";
 import { Navbar } from "@/components/Navbar.tsx";
+import { User } from "@/api/user.ts";
+import { AddActivity } from "@/layouts/AddActivity.tsx";
 
-export type TabType = "TodayPlan" | "Chat" | "Profile";
+export type TabType = "TodayPlan" | "Chat" | "Profile" | "AddActivity";
 
-export function Main() {
+export function Main({ user }: { user: User }) {
   const [currTab, setCurrTab] = useState<TabType>("TodayPlan");
 
   return (
     <div>
-      {currTab === "TodayPlan" && <Plan date={new Date()} />}
+      {currTab === "TodayPlan" && (
+        <Plan date={new Date()} onChange={setCurrTab} />
+      )}
       {currTab === "Chat" && <h1>чат</h1>}
       {currTab === "Profile" && <h1>профиль</h1>}
-      <Navbar onChange={setCurrTab} />
+      {currTab === "AddActivity" && <AddActivity />}
+      <Navbar currTab={currTab} onChange={setCurrTab} />
     </div>
   );
 }
