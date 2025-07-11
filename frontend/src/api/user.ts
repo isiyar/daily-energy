@@ -17,7 +17,10 @@ export type User = {
   name: string;
 };
 
-export async function getUserByTgId(utgid: number, initData: string) {
+export async function getUserByTgId(
+  utgid: number,
+  initData: string,
+): Promise<User> {
   const { data } = await axios.get<User>(`${API_URL}/api/users/${utgid}`, {
     headers: {
       initData: initData,
@@ -27,7 +30,10 @@ export async function getUserByTgId(utgid: number, initData: string) {
   return data;
 }
 
-export async function createUser(user: Partial<User>, initData: string) {
+export async function createUser(
+  user: Partial<User>,
+  initData: string,
+): Promise<number> {
   const response = await axios.post(`${API_URL}/api/users`, user, {
     headers: {
       initData: initData,
