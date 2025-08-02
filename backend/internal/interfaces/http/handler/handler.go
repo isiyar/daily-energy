@@ -9,7 +9,7 @@ type Handler struct {
 	Chat              *ChatHandler
 }
 
-func NewHandler(actionUC *ActionHandler, userUC *UserHandler, userWeightHistoryUC *UserWeightHistoryHandler, planUC *PlanHandler, AiUc *AiHandler,  ChatUC *ChatHandler) *Handler {
+func NewHandler(actionUC *ActionHandler, userUC *UserHandler, userWeightHistoryUC *UserWeightHistoryHandler, planUC *PlanHandler, AiUc *AiHandler, ChatUC *ChatHandler) *Handler {
 	return &Handler{
 		Action:            actionUC,
 		User:              userUC,

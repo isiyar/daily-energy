@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-func GenerateMessage(systemPrompt SystemPrompt, userPrompt string) ([]byte, error) {
+func GenerateMessage(systemPrompt string, userPrompt string) ([]byte, error) {
 	requestBody := ChatRequest{
 		Model: "openrouter/cypher-alpha:free",
 		Messages: []Message{

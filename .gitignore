@@ -29,5 +29,5 @@ go.work.sum
 
 data/certbot/conf/
 # Editor/IDE
- .idea/
- .vscode/
+.idea/
+.vscode/

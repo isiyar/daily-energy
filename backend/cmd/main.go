@@ -11,6 +11,7 @@ import (
 	"github.com/isiyar/daily-energy/backend/internal/app/usecase"
 	"github.com/isiyar/daily-energy/backend/internal/interfaces/http/handler"
 	"log"
+	"strings"
 )
 
 func main() {
@@ -61,10 +62,10 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://frontend-dev:5173", "https://test-srvr.ru", "https://1e2967f55653.ngrok-free.app"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "initdata"},
-		ExposeHeaders:    []string{"Content-Length"},
+		AllowOrigins:  strings.Split(c.AllowOrigins, ","),
+		AllowMethods:  []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:  []string{"Origin", "Content-Type", "Accept", "Authorization", "initdata"},
+		ExposeHeaders: []string{"Content-Length"},
 	}))
 
 	apiGroup := r.Group("/api")

@@ -99,7 +99,7 @@ func (h *PlanHandler) CreatePlan(c *gin.Context) {
 		user.Gender, user.DateofBirth, user.Weight, user.Height, user.Goal, user.PhysicalActivity, Preq.Date)
 
 	jsonData, err := ai.GenerateMessage(
-		ai.PlanGenerator,
+		string(h.cnfg.PlanGenerator),
 		fmt.Sprintf("%s %d %d %d %s %s %d", user.Gender, user.DateofBirth, user.Weight, user.Height, user.Goal, user.PhysicalActivity, Preq.Date))
 	if err != nil {
 		log.Printf("Failed to encode request body: %v", err)

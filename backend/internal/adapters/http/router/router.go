@@ -20,16 +20,16 @@ func RegisterRoutes(r gin.IRouter, h *handler.Handler, c config.Config) {
 		{
 			usersUtgid.POST("/actions", h.Action.CreateAction)
 			usersUtgid.GET("/actions", h.Action.GetActions)
-      
-      usersUtgid.POST("/plans", h.Plan.CreatePlan)
-      usersUtgid.GET("/plans", h.Plan.GetPlans)
-      
+
+			usersUtgid.POST("/plans", h.Plan.CreatePlan)
+			usersUtgid.GET("/plans", h.Plan.GetPlans)
+
 			usersUtgid.GET("/weight-history", h.UserWeightHistory.GetUserWeightHistory)
 			usersUtgid.POST("/weight-history", h.UserWeightHistory.CreateUserWeightHistory)
 		}
 	}
-  
-  	actions := r.Group("/actions", handler.TelegramAuthMiddleware(c.TelegramBotToken))
+
+	actions := r.Group("/actions", handler.TelegramAuthMiddleware(c.TelegramBotToken))
 	{
 		actions.GET("/:id", h.Action.GetAction)
 	}
