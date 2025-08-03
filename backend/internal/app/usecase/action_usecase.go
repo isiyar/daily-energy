@@ -25,3 +25,10 @@ func (uc *ActionUseCase) Add(ctx context.Context, action *models.Action) error {
 func (uc *ActionUseCase) GetByStartTimeAndFinishTime(ctx context.Context, StartAt, FinishAt, utgid int64) ([]models.Action, error) {
 	return uc.repo.GetByStartTimeAndFinishTime(ctx, StartAt, FinishAt, utgid)
 }
+
+func (uc *ActionUseCase) GetByStartTimeAndFinishTimeAndType(ctx context.Context, StartAt, FinishAt int64, utgid int64, actionType string) ([]models.Action, error) {
+	if actionType == "" {
+		return uc.GetByStartTimeAndFinishTime(ctx, StartAt, FinishAt, utgid)
+	}
+	return uc.repo.GetByStartTimeAndFinishTimeAndType(ctx, StartAt, FinishAt, utgid, actionType)
+}

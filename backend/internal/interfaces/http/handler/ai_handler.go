@@ -32,8 +32,8 @@ func (h *AiHandler) CalculationCalories(c *gin.Context) {
 	}
 
 	jsonData, err := ai.GenerateMessage(
-		ai.CaloriesAnalyzer,
-		fmt.Sprintf("%s %s", ai.FoodToAnalyze, cReq.Title))
+		string(h.cnfg.CaloriesAnalyzer),
+		fmt.Sprintf("%s %s", h.cnfg.FoodToAnalyze, cReq.Title))
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to encode request body"})

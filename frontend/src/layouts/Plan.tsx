@@ -74,7 +74,7 @@ export function Plan({ date, onChange }: PlanProops) {
               circleColor="text-[#666666]"
               curr={
                 data!!.length > 0
-                  ? data!!.reduce((sum, item) => sum + item.calories, 0)
+                  ? data!!.reduce((sum: number, item: any) => sum + item.calories, 0)
                   : 0
               }
               end={

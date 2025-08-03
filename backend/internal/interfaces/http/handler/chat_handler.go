@@ -42,7 +42,7 @@ func (h *ChatHandler) HandleChat(c *gin.Context) {
 	log.Println("New WebSocket connection established for chat")
 
 	conversationHistory := []ai.Message{
-		{Role: "system", Content: h.c.SystemPrompt},
+		{Role: "system", Content: string(h.c.CaloriesAnalyzer)},
 	}
 
 	client := &http.Client{}
