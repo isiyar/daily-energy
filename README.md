@@ -8,61 +8,61 @@ The Daily Energy Telegram Mini-App is a user-friendly tool designed to help indi
 ### Registration
 The initial setup process guides users through entering personal details to create a profile. Upon successful registration, the AI generates a personalized 7-day plan for food and activity based on the provided data.  
 <p align="center">
-  <img src="misc/img/greeting.png" style="max-height: 300px;" alt="Welcome Screen">  
-  <img src="misc/img/input_name.png" style="max-height: 300px;" alt="Name Input">  
-  <img src="misc/img/choose_gender.png" style="max-height: 300px;" alt="Gender Selection">  
-  <img src="misc/img/choose_aim.png" style="max-height: 300px;" alt="Goal Selection">  
-  <img src="misc/img/choose_weight.png" style="max-height: 300px;" alt="Weight Input">  
-  <img src="misc/img/choose_height.png" style="max-height: 300px;" alt="Height Input">  
-  <img src="misc/img/choose_day_of_birth.png" style="max-height: 300px;" alt="Date of Birth Selection">  
-  <img src="misc/img/choose_physical_activity.png" style="max-height: 300px;" alt="Activity Level Selection">  
+  <img src="misc/img/greeting.png" height=300px alt="Welcome Screen">  
+  <img src="misc/img/input_name.png" height=300px alt="Name Input">  
+  <img src="misc/img/choose_gender.png" height=300px alt="Gender Selection">  
+  <img src="misc/img/choose_aim.png" height=300px alt="Goal Selection">  
+  <img src="misc/img/choose_weight.png" height=300px alt="Weight Input">  
+  <img src="misc/img/choose_height.png" height=300px alt="Height Input">  
+  <img src="misc/img/choose_day_of_birth.png" height=300px alt="Date of Birth Selection">  
+  <img src="misc/img/choose_physical_activity.png" height=300px alt="Activity Level Selection">  
 </p>
 
 ### Interactive Chat with the AI Assistant Rafik (Mascot)
 Users can engage in an interactive chat with Rafik, the AI mascot, for personalized advice and support.  
 <p align="center">
-  <img src="misc/img/ai_chat_start.png" style="max-height: 300px;" alt="Chat Start">  
-  <img src="misc/img/ai_chat.png" style="max-height: 300px;" alt="Chat Interface">  
+  <img src="misc/img/ai_chat_start.png" height=300px alt="Chat Start">  
+  <img src="misc/img/ai_chat.png" height=300px alt="Chat Interface">  
 </p>
 
 ### View and Add Today's Food and Activities
 Track and log daily food intake and physical activities. When entering a food name, the AI calculates the average calorie content of a typical serving.  
 <p align="center">
-  <img src="misc/img/view_today_activity.png" style="max-height: 300px;" alt="View Today's Activity">  
-  <img src="misc/img/view_today_food.png" style="max-height: 300px;" alt="View Today's Food">  
+  <img src="misc/img/view_today_activity.png" height=300px alt="View Today's Activity">  
+  <img src="misc/img/view_today_food.png" height=300px alt="View Today's Food">  
 </p>
 <p align="center">
-  <img src="misc/img/add_today_activity.png" style="max-height: 300px;" alt="Add Today's Activity">  
-  <img src="misc/img/add_today_food.png" style="max-height: 300px;" alt="Add Today's Food">  
+  <img src="misc/img/add_today_activity.png" height=300px alt="Add Today's Activity">  
+  <img src="misc/img/add_today_food.png" height=300px alt="Add Today's Food">  
 </p>
 
 ### View History and Plan for Food and Activities
 Review historical data and access the 7-day plan generated during registration for both food and activities.  
 <p align="center">
-  <img src="misc/img/view_history_activity.png" style="max-height: 300px;" alt="View Activity History">  
-  <img src="misc/img/view_history_food.png" style="max-height: 300px;" alt="View Food History">
+  <img src="misc/img/view_history_activity.png" height=300px alt="View Activity History">  
+  <img src="misc/img/view_history_food.png" height=300px alt="View Food History">
 </p>
 <p align="center">
-  <img src="misc/img/view_activity_plan.png" style="max-height: 300px;" alt="View Activity Plan">  
-  <img src="misc/img/view_food_plan.png" style="max-height: 300px;" alt="View Food Plan">  
+  <img src="misc/img/view_activity_plan.png" height=300px alt="View Activity Plan">  
+  <img src="misc/img/view_food_plan.png" height=300px alt="View Food Plan">  
 </p>
 
 ### Calendar
 Select a specific day to view its history or plan details.  
 <p align="center">
-  <img src="misc/img/calendar.png" style="max-height: 300px;" alt="Calendar">  
+  <img src="misc/img/calendar.png" height=300px alt="Calendar">  
 </p>
 
 ### Profile
 View personal progress dynamics and edit profile details as needed.  
 <p align="center">
-  <img src="misc/img/profile.png" style="max-height: 300px;" alt="Profile Overview">  
-  <img src="misc/img/edit_profile.png" style="max-height: 300px;" alt="Edit Profile">  
+  <img src="misc/img/profile.png" height=300px alt="Profile Overview">  
+  <img src="misc/img/edit_profile.png" height=300px alt="Edit Profile">  
 </p>
 
 ## ER-diagram
 
-<img src="misc/img/er-diagram.svg" style="max-height: 500px;" alt="Edit Profile">
+<img src="misc/img/er-diagram.svg" height=500px alt="Edit Profile">
 
 ## Techologies
 
