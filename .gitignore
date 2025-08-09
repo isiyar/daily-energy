@@ -31,3 +31,4 @@ data/certbot/conf/
 # Editor/IDE
 .idea/
 .vscode/
+.env

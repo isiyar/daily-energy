@@ -55,6 +55,7 @@ services:
   nginx-prod:
     container_name: nginx-prod
     image: nginx:1.28.0-alpine
+    command: /bin/sh -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
     restart: unless-stopped
     env_file:
       - path: .env
@@ -65,7 +66,7 @@ services:
     networks:
       - network
     volumes:
-      - ./nginx/prod.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/prod.conf.template:/etc/nginx/nginx.conf.tremplate:ro
       - ../certbot/conf:/etc/letsencrypt
       - ../certbot/www:/var/www/certbot
     configs:
@@ -153,4 +154,4 @@ configs:
 
   nginx-config-prod:
     name: nginx-config-prod
-    file: ./nginx/prod.conf
+    file: ./nginx/prod.conf.template
